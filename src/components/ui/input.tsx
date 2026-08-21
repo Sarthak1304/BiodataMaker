@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
     <input
       ref={ref}
       className={cn(
-        "w-full rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
+        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
         className
       )}
       {...props}
@@ -27,7 +27,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<H
     <textarea
       ref={ref}
       className={cn(
-        "w-full rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
+        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
         className
       )}
       {...props}
@@ -46,7 +46,7 @@ export function Field({
   className?: string;
 }) {
   return (
-    <div className={className}>
+    <div className={cn("min-w-0", className)}>
       <FieldLabel>{label}</FieldLabel>
       {children}
     </div>
