@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { Plus } from "lucide-react";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TopBar } from "@/components/layout/top-bar";
+import { BottomNav } from "@/components/layout/bottom-nav";
 import { Badge } from "@/components/ui/chip";
 import { Button } from "@/components/ui/button";
 import { useDraftStore } from "@/lib/draft-store";
 import { mapDbBiodata } from "@/lib/biodata-mapper";
+import { useRequireAuth } from "@/lib/use-require-auth";
 import { TEMPLATES } from "@/types/biodata";
 
 interface BiodataRow {
@@ -23,20 +24,13 @@ interface BiodataRow {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { status } = useSession();
+  const status = useRequireAuth();
   const loadBiodata = useDraftStore((s) => s.loadBiodata);
   const reset = useDraftStore((s) => s.reset);
   const [rows, setRows] = useState<BiodataRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      // No explicit callbackUrl: /auth already defaults sign-in to
-      // /dashboard and "Continue as Guest" to /start, which is exactly
-      // right here (a guest has nothing to see on this page).
-      router.replace("/auth");
-      return;
-    }
     if (status !== "authenticated") return;
 
     fetch("/api/biodata")
@@ -116,6 +110,8 @@ export default function DashboardPage() {
           New Biodata
         </Button>
       </div>
+
+      <BottomNav />
     </MobileShell>
   );
 }

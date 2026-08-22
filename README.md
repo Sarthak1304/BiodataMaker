@@ -35,6 +35,9 @@ Fill in `.env.local`:
   app works end-to-end without this — `npx prisma migrate dev` creates the
   tables once it's set.
 - `NEXTAUTH_SECRET` — any random 32-byte string (`openssl rand -base64 32`).
+- `MESSAGE_ENCRYPTION_KEY` — any random 32-byte string (`openssl rand -base64 32`).
+  Messaging encrypts content at rest with this key (AES-256-GCM) — required
+  for `/messages` to work, and losing it makes existing messages unreadable.
 - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from a Google Cloud OAuth
   client (console.cloud.google.com → APIs & Services → Credentials). Add
   `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI.

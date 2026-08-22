@@ -1,0 +1,201 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, SlidersHorizontal, X, BadgeCheck, UserRound } from "lucide-react";
+import { MobileShell } from "@/components/layout/mobile-shell";
+import { BottomNav } from "@/components/layout/bottom-nav";
+import { useRequireAuth } from "@/lib/use-require-auth";
+import { PublicProfileCard } from "@/lib/public-profile";
+
+const RELIGIONS = ["Hindu", "Muslim", "Christian", "Sikh", "Jain", "Buddhist"];
+
+export default function DiscoverPage() {
+  const status = useRequireAuth();
+  const router = useRouter();
+
+  const [q, setQ] = useState("");
+  const [religion, setReligion] = useState("");
+  const [city, setCity] = useState("");
+  const [minAge, setMinAge] = useState("");
+  const [maxAge, setMaxAge] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+
+  const [cards, setCards] = useState<PublicProfileCard[] | null>(null);
+  const [total, setTotal] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    const params = new URLSearchParams();
+    if (q) params.set("q", q);
+    if (religion) params.set("religion", religion);
+    if (city) params.set("city", city);
+    if (minAge) params.set("minAge", minAge);
+    if (maxAge) params.set("maxAge", maxAge);
+
+    const timeout = setTimeout(() => {
+      fetch(`/api/discover?${params.toString()}`)
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error("Couldn't load profiles."))))
+        .then((data) => {
+          setCards(data.cards);
+          setTotal(data.total);
+        })
+        .catch((e) => setError(e.message));
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, [status, q, religion, city, minAge, maxAge]);
+
+  const activeFilters = [
+    religion && { key: "religion", label: religion, clear: () => setReligion("") },
+    city && { key: "city", label: city, clear: () => setCity("") },
+    (minAge || maxAge) && {
+      key: "age",
+      label: `Age ${minAge || "18"}–${maxAge || "70"}`,
+      clear: () => {
+        setMinAge("");
+        setMaxAge("");
+      },
+    },
+  ].filter(Boolean) as { key: string; label: string; clear: () => void }[];
+
+  return (
+    <MobileShell wide>
+      <div className="px-5 pt-5 lg:px-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h1 className="font-display text-[26px] font-semibold text-maroon-900">Discover</h1>
+          <button
+            onClick={() => setShowFilters((v) => !v)}
+            className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-white"
+          >
+            <SlidersHorizontal size={18} strokeWidth={1.8} className="text-ink-700" />
+          </button>
+        </div>
+
+        <div className="mb-3.5 flex items-center gap-2.5 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3">
+          <Search size={16} strokeWidth={1.8} className="text-ink-300" />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search by name, profession..."
+            className="flex-1 border-none bg-transparent text-[14px] text-ink-900 outline-none"
+          />
+        </div>
+
+        {showFilters && (
+          <div className="mb-4 flex flex-col gap-3 rounded-md border border-border bg-white p-4">
+            <div>
+              <p className="mb-2 text-[12px] font-medium text-ink-700">Religion</p>
+              <div className="flex flex-wrap gap-2">
+                {RELIGIONS.map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setReligion(religion === r ? "" : r)}
+                    className={`rounded-full border px-3 py-1.5 text-[12.5px] ${
+                      religion === r ? "border-maroon-700 bg-maroon-900 text-gold-100" : "border-border text-ink-700"
+                    }`}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <p className="mb-2 text-[12px] font-medium text-ink-700">Age</p>
+                <div className="flex items-center gap-2">
+                  <input
+                    value={minAge}
+                    onChange={(e) => setMinAge(e.target.value.replace(/\D/g, ""))}
+                    placeholder="Min"
+                    className="w-full min-w-0 rounded-md border border-border px-2.5 py-2 text-[13px] outline-none"
+                  />
+                  <span className="text-ink-300">–</span>
+                  <input
+                    value={maxAge}
+                    onChange={(e) => setMaxAge(e.target.value.replace(/\D/g, ""))}
+                    placeholder="Max"
+                    className="w-full min-w-0 rounded-md border border-border px-2.5 py-2 text-[13px] outline-none"
+                  />
+                </div>
+              </div>
+              <div className="flex-1">
+                <p className="mb-2 text-[12px] font-medium text-ink-700">Location</p>
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="City"
+                  className="w-full min-w-0 rounded-md border border-border px-2.5 py-2 text-[13px] outline-none"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeFilters.length > 0 && (
+          <div className="no-scrollbar mb-3.5 flex gap-2 overflow-x-auto">
+            {activeFilters.map((f) => (
+              <button
+                key={f.key}
+                onClick={f.clear}
+                className="flex shrink-0 items-center gap-1.5 rounded-full bg-maroon-900 px-3.5 py-2 text-[12.5px] font-semibold text-gold-100"
+              >
+                {f.label}
+                <X size={11} strokeWidth={2.5} />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {error && <p className="mb-3 text-[13px] text-maroon-700">{error}</p>}
+        {cards === null && !error && <p className="text-[13.5px] text-ink-500">Loading…</p>}
+        {cards && <p className="mb-3.5 text-[12.5px] text-ink-300">{total} profiles match your filters</p>}
+
+        {cards && cards.length === 0 && (
+          <div className="rounded-lg border-[1.5px] border-dashed border-border bg-white py-14 text-center">
+            <p className="text-[14px] text-ink-500">No profiles match right now — try widening your filters.</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4">
+          {cards?.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => router.push(`/profile/${c.id}`)}
+              className="overflow-hidden rounded-lg border border-border bg-white text-left"
+            >
+              <div className="relative aspect-square bg-gradient-to-br from-gold-100 to-ivory-200">
+                {c.photoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={c.photoUrl} alt={c.fullName} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <UserRound size={36} strokeWidth={1.3} className="text-gold-600" />
+                  </div>
+                )}
+                {c.verified && (
+                  <span className="absolute right-2 top-2 flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-white bg-sage-600">
+                    <BadgeCheck size={13} strokeWidth={2.5} className="text-white" />
+                  </span>
+                )}
+              </div>
+              <div className="px-3 py-2.5">
+                <p className="text-[13.5px] font-semibold text-ink-900">
+                  {c.fullName.split(" ")[0]}
+                  {c.age ? `, ${c.age}` : ""}
+                </p>
+                <p className="mt-1 truncate text-[11px] text-ink-500">{c.occupation || "—"}</p>
+                <p className="mt-0.5 truncate text-[11px] text-ink-300">
+                  {[c.city, c.religion].filter(Boolean).join(" · ")}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <BottomNav />
+    </MobileShell>
+  );
+}
