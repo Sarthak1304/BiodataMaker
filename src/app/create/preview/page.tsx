@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { TemplateRenderer } from "@/components/templates/template-renderer";
 import { DownloadGateModal } from "@/components/download-gate-modal";
 import { useDraftStore } from "@/lib/draft-store";
+import { TEMPLATES } from "@/types/biodata";
 import { ChevronLeft } from "lucide-react";
 
 export default function LivePreviewPage() {
@@ -94,7 +95,7 @@ export default function LivePreviewPage() {
 
       <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pt-4">
         <span className="shrink-0 rounded-full bg-maroon-900 px-3 py-1.5 text-[11.5px] font-semibold text-gold-100">
-          {draft.templateId === "modern-minimal" ? "Modern Minimal" : "Traditional Floral"}
+          {TEMPLATES.find((t) => t.id === draft.templateId)?.name ?? "Traditional Floral"}
         </span>
         <Link
           href="/create/template?from=/create/preview"

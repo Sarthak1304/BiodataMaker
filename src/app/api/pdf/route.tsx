@@ -5,6 +5,8 @@ import { authOptions } from "@/lib/auth";
 import { BiodataData } from "@/types/biodata";
 import { TraditionalFloralPdf } from "@/components/pdf/traditional-floral-pdf";
 import { ModernMinimalPdf } from "@/components/pdf/modern-minimal-pdf";
+import { ThemedPdf } from "@/components/pdf/themed-pdf";
+import { TEMPLATE_THEMES } from "@/components/templates/theme";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -14,7 +16,17 @@ export async function POST(req: NextRequest) {
 
   const data = (await req.json()) as BiodataData;
 
-  const doc = data.templateId === "modern-minimal" ? <ModernMinimalPdf data={data} /> : <TraditionalFloralPdf data={data} />;
+  let doc: JSX.Element;
+  if (data.templateId === "modern-minimal") {
+    doc = <ModernMinimalPdf data={data} />;
+  } else if (data.templateId === "traditional-floral") {
+    doc = <TraditionalFloralPdf data={data} />;
+  } else if (TEMPLATE_THEMES[data.templateId]) {
+    doc = <ThemedPdf data={data} />;
+  } else {
+    doc = <TraditionalFloralPdf data={data} />;
+  }
+
   const buffer = await renderToBuffer(doc);
 
   const fileName = `${(data.personal.fullName || "biodata").replace(/[^a-z0-9]+/gi, "-").toLowerCase()}-biodata.pdf`;

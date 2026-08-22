@@ -29,7 +29,26 @@ interface DraftState {
   setAdditionalPhotos: (urls: string[]) => void;
   setSavedBiodataId: (id: string | null) => void;
   loadBiodata: (biodata: BiodataData & { id: string }) => void;
+  hydrateFromExtraction: (extracted: {
+    personal?: Record<string, unknown>;
+    family?: Record<string, unknown>;
+    education?: Record<string, unknown>;
+    astro?: Record<string, unknown>;
+    contact?: Record<string, unknown>;
+  }) => void;
   reset: () => void;
+}
+
+/** Merges only the non-empty extracted values on top of the current section, so a field the model left blank never overwrites something the user already typed. */
+function mergeNonEmpty<T extends object>(current: T, incoming?: Record<string, unknown>): T {
+  if (!incoming) return current;
+  const next = { ...current } as Record<string, unknown>;
+  for (const [key, value] of Object.entries(incoming)) {
+    if (value === undefined || value === null || value === "") continue;
+    if (Array.isArray(value) && value.length === 0) continue;
+    next[key] = value;
+  }
+  return next as T;
 }
 
 export const useDraftStore = create<DraftState>()(
@@ -59,6 +78,17 @@ export const useDraftStore = create<DraftState>()(
       setSavedBiodataId: (id) =>
         set((s) => ({ savedBiodataId: id, draft: { ...s.draft, id: id ?? undefined } })),
       loadBiodata: (biodata) => set({ draft: biodata, savedBiodataId: biodata.id }),
+      hydrateFromExtraction: (extracted) =>
+        set((s) => ({
+          draft: {
+            ...s.draft,
+            personal: mergeNonEmpty(s.draft.personal, extracted.personal),
+            family: mergeNonEmpty(s.draft.family, extracted.family),
+            education: mergeNonEmpty(s.draft.education, extracted.education),
+            astro: mergeNonEmpty(s.draft.astro, extracted.astro),
+            contact: mergeNonEmpty(s.draft.contact, extracted.contact),
+          },
+        })),
       reset: () => set({ draft: EMPTY_BIODATA, savedBiodataId: null }),
     }),
     {

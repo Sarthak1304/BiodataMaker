@@ -77,7 +77,16 @@ export type TemplateId =
   | "royal-rajasthani"
   | "elegant-ivory-gold"
   | "professional"
-  | "pastel-contemporary";
+  | "pastel-contemporary"
+  | "peacock-motif"
+  | "marigold-vermilion"
+  | "kalamkari-print"
+  | "sacred-mandala"
+  | "south-indian-temple"
+  | "bengali-alpana"
+  | "photo-forward"
+  | "floral-watercolor"
+  | "indo-deco";
 
 export interface TemplateMeta {
   id: TemplateId;
@@ -103,25 +112,79 @@ export const TEMPLATES: TemplateMeta[] = [
     id: "royal-rajasthani",
     name: "Royal Rajasthani",
     description: "Jewel tones, ornamental frame, regal feel.",
-    available: false,
+    available: true,
   },
   {
     id: "elegant-ivory-gold",
     name: "Elegant Ivory & Gold",
     description: "Understated luxury, thin gold rule lines.",
-    available: false,
+    available: true,
   },
   {
     id: "professional",
     name: "Professional",
     description: "Resume-like structure, muted navy/grey.",
-    available: false,
+    available: true,
   },
   {
     id: "pastel-contemporary",
     name: "Pastel Contemporary",
     description: "Soft palette, rounded sections, friendlier feel.",
-    available: false,
+    available: true,
+  },
+  {
+    id: "peacock-motif",
+    name: "Peacock Motif",
+    description: "Deep emerald background, gold peacock-eye accents.",
+    available: true,
+  },
+  {
+    id: "marigold-vermilion",
+    name: "Marigold & Vermilion",
+    description: "Warm festive orange, marigold garland border.",
+    available: true,
+  },
+  {
+    id: "kalamkari-print",
+    name: "Kalamkari Print",
+    description: "Heritage hand-print border, earthy tones.",
+    available: true,
+  },
+  {
+    id: "sacred-mandala",
+    name: "Sacred Mandala",
+    description: "Centered mandala watermark, warm ivory & copper.",
+    available: true,
+  },
+  {
+    id: "south-indian-temple",
+    name: "South Indian Temple",
+    description: "Temple gopuram silhouette border, maroon & gold.",
+    available: true,
+  },
+  {
+    id: "bengali-alpana",
+    name: "Bengali Alpana",
+    description: "Deep red ground with an ivory alpana-bordered card.",
+    available: true,
+  },
+  {
+    id: "photo-forward",
+    name: "Photo-Forward",
+    description: "Large portrait panel, charcoal editorial styling.",
+    available: true,
+  },
+  {
+    id: "floral-watercolor",
+    name: "Floral Watercolor",
+    description: "Soft blurred watercolor blooms, romantic pastel.",
+    available: true,
+  },
+  {
+    id: "indo-deco",
+    name: "Indo-Deco",
+    description: "Midnight navy with art-deco gold geometry.",
+    available: true,
   },
 ];
 

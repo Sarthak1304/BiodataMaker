@@ -1,0 +1,178 @@
+import { BiodataData } from "@/types/biodata";
+import {
+  astroGrid,
+  badgeList,
+  contactGrid,
+  educationLines,
+  familyLines,
+  personalGrid,
+} from "./format";
+import { PhotosPage } from "./photos-page";
+import { TEMPLATE_THEMES } from "./theme";
+import { Decoration, Frame } from "./decorations";
+import { SectionTitle, Grid, Lines, CompactRows } from "./section-parts";
+
+function PhotoCircle({ data, theme, size = 50 }: { data: BiodataData; theme: (typeof TEMPLATE_THEMES)[string]; size?: number }) {
+  const shape = (data.photoShape ?? "circle") === "square" ? "rounded-md" : "rounded-full";
+  return (
+    <div
+      className={`mx-auto mb-2 flex items-center justify-center overflow-hidden border-2 ${shape}`}
+      style={{ width: size, height: size, borderColor: theme.photoRing, background: theme.photoBg }}
+    >
+      {data.photoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={data.photoUrl} alt={data.personal.fullName} className="h-full w-full object-cover" />
+      ) : (
+        <svg width={size * 0.4} height={size * 0.4} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke={theme.mutedColor} strokeWidth="1.3" />
+          <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke={theme.mutedColor} strokeWidth="1.3" strokeLinecap="round" />
+        </svg>
+      )}
+    </div>
+  );
+}
+
+export function ThemedTemplate({ data }: { data: BiodataData }) {
+  const theme = TEMPLATE_THEMES[data.templateId];
+  if (!theme) return null;
+
+  const grid = personalGrid(data);
+  const astro = astroGrid(data);
+  const family = familyLines(data);
+  const education = educationLines(data);
+  const contact = contactGrid(data);
+  const badges = badgeList(data);
+  const { personal } = data;
+
+  const sections = (
+    <>
+      {grid.length > 0 && (
+        <div className="relative mt-2.5">
+          <SectionTitle color={theme.accentColor}>PERSONAL DETAILS</SectionTitle>
+          <Grid rows={grid} labelColor={theme.mutedColor} valueColor={theme.bodyColor} />
+        </div>
+      )}
+
+      {astro.length > 0 && (
+        <div className="relative mt-2.5">
+          <SectionTitle color={theme.accentColor}>
+            {data.templateId === "peacock-motif" ? "HOROSCOPE" : "RELIGIOUS & ASTROLOGICAL"}
+          </SectionTitle>
+          <Grid rows={astro} labelColor={theme.mutedColor} valueColor={theme.bodyColor} />
+        </div>
+      )}
+
+      {(family.length > 0 || contact.length > 0) && (
+        <div className="relative mt-2.5 grid grid-cols-2 items-start gap-3">
+          {family.length > 0 && (
+            <div>
+              <SectionTitle color={theme.accentColor}>FAMILY DETAILS</SectionTitle>
+              <Lines lines={family} color={theme.bodyColor} />
+            </div>
+          )}
+          {contact.length > 0 && (
+            <div>
+              <SectionTitle color={theme.accentColor}>CONTACT DETAILS</SectionTitle>
+              <CompactRows rows={contact} labelColor={theme.mutedColor} valueColor={theme.bodyColor} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {education.length > 0 && (
+        <div className="relative mt-2.5">
+          <SectionTitle color={theme.accentColor}>EDUCATION &amp; CAREER</SectionTitle>
+          <Lines lines={education} color={theme.bodyColor} />
+        </div>
+      )}
+
+      {personal.hobbies.length > 0 && (
+        <div className="relative mt-2.5">
+          <SectionTitle color={theme.accentColor}>HOBBIES &amp; INTERESTS</SectionTitle>
+          <div className="text-[6.3px]" style={{ color: theme.bodyColor }}>
+            {personal.hobbies.join(" · ")}
+          </div>
+        </div>
+      )}
+
+      {badges.length > 0 && (
+        <div className="relative mt-2.5 flex flex-wrap gap-1">
+          {badges.map((b) => (
+            <span
+              key={b}
+              className="rounded-full px-[6px] py-[2px] text-[5.5px] font-semibold"
+              style={{ background: theme.badgeBg, color: theme.badgeText }}
+            >
+              {b}
+            </span>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  const header = (
+    <div className="relative pt-1 text-center">
+      <p className="mb-1.5 text-[7px] tracking-[0.2em]" style={{ color: theme.accentColor }}>
+        MATRIMONIAL BIODATA
+      </p>
+      <PhotoCircle data={data} theme={theme} />
+      <div className="font-display text-[14px] font-semibold" style={{ color: theme.headingColor }}>
+        {personal.fullName || "Your Name"}
+      </div>
+      <div className="mx-auto mt-1.5 h-px w-9" style={{ background: theme.dividerColor }} />
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div
+        className="relative aspect-[210/297] h-auto w-full overflow-hidden font-sans shadow-card"
+        style={{ background: theme.pageBackground }}
+      >
+        <Decoration theme={theme} />
+        <Frame theme={theme} />
+
+        <div className={theme.frame === "temple-band" ? "px-[16px] pb-[18px] pt-[38px]" : "p-[18px_16px]"}>
+          {theme.headerVariant === "portrait" ? (
+            <>
+              <div className="relative -m-[18px] mb-3 aspect-[4/3] w-[calc(100%+32px)] overflow-hidden bg-gradient-to-br from-[#4A4340] to-[#22201D]">
+                {data.photoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={data.photoUrl} alt={personal.fullName} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="8" r="4" stroke="#9C917F" strokeWidth="1.1" />
+                      <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="#9C917F" strokeWidth="1.1" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div className="font-display text-[16px] font-semibold" style={{ color: theme.headingColor }}>
+                {personal.fullName || "Your Name"}
+              </div>
+              <p className="mt-1 text-[7px] tracking-[0.15em]" style={{ color: theme.accentColor }}>
+                EDITORIAL PORTRAIT
+              </p>
+              <div className="mt-1.5 h-px w-9" style={{ background: theme.dividerColor }} />
+              {sections}
+            </>
+          ) : theme.headerVariant === "insetCard" ? (
+            <div className="rounded-md p-3" style={{ background: "#FDF6E9" }}>
+              {header}
+              {sections}
+            </div>
+          ) : (
+            <>
+              {header}
+              {sections}
+            </>
+          )}
+        </div>
+      </div>
+
+      <PhotosPage data={data} accent="maroon" />
+    </div>
+  );
+}
