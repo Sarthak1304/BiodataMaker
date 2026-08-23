@@ -48,7 +48,7 @@ export default async function LandingPage() {
         </p>
         <GetStartedButton />
         <Link href="/start">
-          <Button variant="secondary" size="block">
+          <Button variant="secondary" className="w-full">
             Continue as Guest
           </Button>
         </Link>

@@ -25,7 +25,7 @@ export function PhotosPage({ data, accent = "maroon" }: { data: BiodataData; acc
         {data.additionalPhotos.map((url, i) => (
           <div
             key={url + i}
-            className="flex aspect-square items-center justify-center overflow-hidden rounded-md border border-border bg-ivory-100"
+            className="flex aspect-square items-center justify-center overflow-hidden rounded-md border border-ivory-200 bg-ivory-100"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt={`Photo ${i + 2}`} className="h-full w-full object-contain" />

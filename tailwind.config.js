@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
@@ -39,16 +38,9 @@ const config: Config = {
           500: "#6B5F52",
           300: "#9C917F",
         },
-        border: "#E6DCC8",
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
-        sans: ["var(--font-body)", "Inter", "ui-sans-serif", "sans-serif"],
-      },
-      borderRadius: {
-        sm: "6px",
-        md: "10px",
-        lg: "16px",
       },
       boxShadow: {
         card: "0 12px 32px rgba(42,33,25,.14)",
@@ -58,5 +50,3 @@ const config: Config = {
   },
   plugins: [],
 };
-
-export default config;

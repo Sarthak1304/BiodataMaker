@@ -57,9 +57,7 @@ export function ThemedPdf({ data }: { data: BiodataData }) {
 
       {astro.length > 0 && (
         <View style={{ marginTop: 8 }}>
-          <SectionHeading color={theme.accentColor}>
-            {data.templateId === "peacock-motif" ? "HOROSCOPE" : "RELIGIOUS & ASTROLOGICAL"}
-          </SectionHeading>
+          <SectionHeading color={theme.accentColor}>RELIGIOUS & ASTROLOGICAL</SectionHeading>
           <GridRows rows={astro} color={theme.bodyColor} labelColor={theme.mutedColor} />
         </View>
       )}
@@ -130,31 +128,8 @@ export function ThemedPdf({ data }: { data: BiodataData }) {
     <Document>
       <Page size="A4" style={{ padding: 36, fontFamily: "Helvetica", backgroundColor: theme.pdfBackground }}>
         <View style={{ flex: 1, padding: 18, ...frameProps }}>
-          {theme.headerVariant === "portrait" ? (
-            <>
-              <View style={{ height: 200, marginHorizontal: -18, marginTop: -18, marginBottom: 14, backgroundColor: "#4A4340" }}>
-                {data.photoUrl && <Image src={data.photoUrl} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-              </View>
-              <Text style={{ fontSize: 20, fontFamily: "Helvetica-Bold", color: theme.headingColor }}>
-                {personal.fullName || "Your Name"}
-              </Text>
-              <Text style={{ fontSize: 8, letterSpacing: 2, color: theme.accentColor, marginTop: 4 }}>
-                EDITORIAL PORTRAIT
-              </Text>
-              <View style={{ height: 1, width: 50, backgroundColor: theme.dividerColor, marginTop: 8, marginBottom: 4 }} />
-              {sections}
-            </>
-          ) : theme.headerVariant === "insetCard" ? (
-            <View style={{ backgroundColor: "#FDF6E9", borderRadius: 6, padding: 16 }}>
-              <Header data={data} theme={theme} />
-              {sections}
-            </View>
-          ) : (
-            <>
-              <Header data={data} theme={theme} />
-              {sections}
-            </>
-          )}
+          <Header data={data} theme={theme} />
+          {sections}
         </View>
       </Page>
       <PhotosPdfPage data={data} accentColor={theme.accentColor} />
@@ -196,13 +171,8 @@ function Header({ data, theme }: { data: BiodataData; theme: TemplateTheme }) {
 
 function frameBorder(theme: TemplateTheme): Record<string, unknown> {
   switch (theme.frame) {
-    case "gold-double":
     case "brown-double":
       return { borderWidth: 1.5, borderColor: theme.accentColor, borderStyle: "solid" };
-    case "mandala":
-      return { borderWidth: 1, borderColor: theme.accentColor, borderStyle: "solid" };
-    case "temple-band":
-      return { borderTopWidth: 6, borderTopColor: theme.accentColor };
     default:
       return {};
   }

@@ -53,8 +53,7 @@ function AuthContent() {
         <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} className="mb-4 w-full">
           <Button
             variant="secondary"
-            size="block"
-            className="flex items-center justify-center gap-2.5"
+            className="flex w-full items-center justify-center gap-2.5"
             onClick={() => signIn("google", { callbackUrl: signInCallbackUrl })}
           >
             <GoogleIcon />

@@ -9,7 +9,7 @@ import {
 } from "./format";
 import { PhotosPage } from "./photos-page";
 import { TEMPLATE_THEMES } from "./theme";
-import { Decoration, Frame } from "./decorations";
+import { Frame } from "./decorations";
 import { SectionTitle, Grid, Lines, CompactRows } from "./section-parts";
 
 function PhotoCircle({ data, theme, size = 68 }: { data: BiodataData; theme: (typeof TEMPLATE_THEMES)[string]; size?: number }) {
@@ -55,9 +55,7 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
 
       {astro.length > 0 && (
         <div className="relative mt-4">
-          <SectionTitle color={theme.accentColor}>
-            {data.templateId === "peacock-motif" ? "HOROSCOPE" : "RELIGIOUS & ASTROLOGICAL"}
-          </SectionTitle>
+          <SectionTitle color={theme.accentColor}>RELIGIOUS &amp; ASTROLOGICAL</SectionTitle>
           <Grid rows={astro} labelColor={theme.mutedColor} valueColor={theme.bodyColor} />
         </div>
       )}
@@ -130,45 +128,11 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
         className="relative aspect-[210/297] h-auto w-full overflow-hidden font-sans shadow-card"
         style={{ background: theme.pageBackground }}
       >
-        <Decoration theme={theme} />
         <Frame theme={theme} />
 
-        <div className={theme.frame === "temple-band" ? "px-[24px] pb-[26px] pt-[44px]" : "p-[26px_22px]"}>
-          {theme.headerVariant === "portrait" ? (
-            <>
-              <div className="relative -m-[22px] mb-4 aspect-[4/3] w-[calc(100%+44px)] overflow-hidden bg-gradient-to-br from-[#4A4340] to-[#22201D]">
-                {data.photoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={data.photoUrl} alt={personal.fullName} className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="8" r="4" stroke="#9C917F" strokeWidth="1.1" />
-                      <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="#9C917F" strokeWidth="1.1" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              <div className="font-display text-[21px] font-semibold" style={{ color: theme.headingColor }}>
-                {personal.fullName || "Your Name"}
-              </div>
-              <p className="mt-1.5 text-[9px] tracking-[0.18em]" style={{ color: theme.accentColor }}>
-                EDITORIAL PORTRAIT
-              </p>
-              <div className="mt-2 h-px w-11" style={{ background: theme.dividerColor }} />
-              {sections}
-            </>
-          ) : theme.headerVariant === "insetCard" ? (
-            <div className="rounded-md p-4" style={{ background: "#FDF6E9" }}>
-              {header}
-              {sections}
-            </div>
-          ) : (
-            <>
-              {header}
-              {sections}
-            </>
-          )}
+        <div className="p-[26px_22px]">
+          {header}
+          {sections}
         </div>
       </div>
 

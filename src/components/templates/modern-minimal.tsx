@@ -77,7 +77,7 @@ export function ModernMinimal({ data }: { data: BiodataData }) {
           )}
         </div>
 
-        <div className="mt-4 h-px w-full bg-border" />
+        <div className="mt-4 h-px w-full bg-ivory-200" />
 
         {grid.length > 0 && (
           <div className="mt-4">
@@ -127,7 +127,7 @@ export function ModernMinimal({ data }: { data: BiodataData }) {
         {badges.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">
             {badges.map((b) => (
-              <span key={b} className="rounded-sm border border-border px-[9px] py-[3.5px] text-[7.5px] font-semibold text-ink-500">
+              <span key={b} className="rounded-sm border border-ivory-200 px-[9px] py-[3.5px] text-[7.5px] font-semibold text-ink-500">
                 {b}
               </span>
             ))}
