@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import { Button } from "@/components/ui/button";
@@ -38,23 +39,37 @@ function PickTemplateContent() {
           Your biodata will preview in this style as you fill it in — switch anytime.
         </p>
 
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ show: { transition: { staggerChildren: 0.04 } } }}
+          className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4"
+        >
           {TEMPLATES.map((t) => {
             const isSelected = t.id === templateId;
             return (
-              <button
+              <motion.button
                 key={t.id}
+                variants={{ hidden: { opacity: 0, y: 14, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1 } }}
+                whileHover={t.available ? { y: -3, scale: 1.02 } : undefined}
+                whileTap={t.available ? { scale: 0.98 } : undefined}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 disabled={!t.available}
                 onClick={() => choose(t.id)}
                 className={cn(
-                  "relative rounded-lg border-[1.5px] bg-white p-2 text-left disabled:opacity-45",
-                  isSelected ? "border-gold-500 border-[2.5px]" : "border-border"
+                  "relative rounded-xl border-[1.5px] bg-white p-2 text-left shadow-sm transition-shadow disabled:opacity-45",
+                  isSelected ? "border-gold-500 border-[2.5px] shadow-md" : "border-border hover:shadow-md"
                 )}
               >
                 {isSelected && (
-                  <span className="absolute right-3.5 top-3.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-gold-500">
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                    className="absolute right-3.5 top-3.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-gold-500"
+                  >
                     <Check size={11} strokeWidth={3} className="text-maroon-900" />
-                  </span>
+                  </motion.span>
                 )}
                 <div className="relative aspect-[210/297] overflow-hidden rounded-md bg-ivory-50 p-2.5">
                   <TemplateThumb id={t.id} />
@@ -63,10 +78,10 @@ function PickTemplateContent() {
                 {!t.available && (
                   <p className="pb-1 text-center text-[10.5px] text-ink-300">Coming soon</p>
                 )}
-              </button>
+              </motion.button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       <div className="mt-7 border-t border-border bg-ivory-50 px-5 py-4 lg:px-8">

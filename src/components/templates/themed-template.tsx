@@ -12,7 +12,7 @@ import { TEMPLATE_THEMES } from "./theme";
 import { Decoration, Frame } from "./decorations";
 import { SectionTitle, Grid, Lines, CompactRows } from "./section-parts";
 
-function PhotoCircle({ data, theme, size = 50 }: { data: BiodataData; theme: (typeof TEMPLATE_THEMES)[string]; size?: number }) {
+function PhotoCircle({ data, theme, size = 68 }: { data: BiodataData; theme: (typeof TEMPLATE_THEMES)[string]; size?: number }) {
   const shape = (data.photoShape ?? "circle") === "square" ? "rounded-md" : "rounded-full";
   return (
     <div
@@ -47,14 +47,14 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
   const sections = (
     <>
       {grid.length > 0 && (
-        <div className="relative mt-2.5">
+        <div className="relative mt-4">
           <SectionTitle color={theme.accentColor}>PERSONAL DETAILS</SectionTitle>
           <Grid rows={grid} labelColor={theme.mutedColor} valueColor={theme.bodyColor} />
         </div>
       )}
 
       {astro.length > 0 && (
-        <div className="relative mt-2.5">
+        <div className="relative mt-4">
           <SectionTitle color={theme.accentColor}>
             {data.templateId === "peacock-motif" ? "HOROSCOPE" : "RELIGIOUS & ASTROLOGICAL"}
           </SectionTitle>
@@ -63,7 +63,7 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
       )}
 
       {(family.length > 0 || contact.length > 0) && (
-        <div className="relative mt-2.5 grid grid-cols-2 items-start gap-3">
+        <div className="relative mt-4 grid grid-cols-2 items-start gap-3">
           {family.length > 0 && (
             <div>
               <SectionTitle color={theme.accentColor}>FAMILY DETAILS</SectionTitle>
@@ -80,27 +80,27 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
       )}
 
       {education.length > 0 && (
-        <div className="relative mt-2.5">
+        <div className="relative mt-4">
           <SectionTitle color={theme.accentColor}>EDUCATION &amp; CAREER</SectionTitle>
           <Lines lines={education} color={theme.bodyColor} />
         </div>
       )}
 
       {personal.hobbies.length > 0 && (
-        <div className="relative mt-2.5">
+        <div className="relative mt-4">
           <SectionTitle color={theme.accentColor}>HOBBIES &amp; INTERESTS</SectionTitle>
-          <div className="text-[6.3px]" style={{ color: theme.bodyColor }}>
+          <div className="text-[8.5px] leading-[1.6]" style={{ color: theme.bodyColor }}>
             {personal.hobbies.join(" · ")}
           </div>
         </div>
       )}
 
       {badges.length > 0 && (
-        <div className="relative mt-2.5 flex flex-wrap gap-1">
+        <div className="relative mt-4 flex flex-wrap gap-1.5">
           {badges.map((b) => (
             <span
               key={b}
-              className="rounded-full px-[6px] py-[2px] text-[5.5px] font-semibold"
+              className="rounded-full px-[9px] py-[3.5px] text-[7.5px] font-semibold"
               style={{ background: theme.badgeBg, color: theme.badgeText }}
             >
               {b}
@@ -113,14 +113,14 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
 
   const header = (
     <div className="relative pt-1 text-center">
-      <p className="mb-1.5 text-[7px] tracking-[0.2em]" style={{ color: theme.accentColor }}>
+      <p className="mb-2 text-[9px] tracking-[0.22em]" style={{ color: theme.accentColor }}>
         MATRIMONIAL BIODATA
       </p>
       <PhotoCircle data={data} theme={theme} />
-      <div className="font-display text-[14px] font-semibold" style={{ color: theme.headingColor }}>
+      <div className="font-display mt-1 text-[19px] font-semibold" style={{ color: theme.headingColor }}>
         {personal.fullName || "Your Name"}
       </div>
-      <div className="mx-auto mt-1.5 h-px w-9" style={{ background: theme.dividerColor }} />
+      <div className="mx-auto mt-2 h-px w-11" style={{ background: theme.dividerColor }} />
     </div>
   );
 
@@ -133,33 +133,33 @@ export function ThemedTemplate({ data }: { data: BiodataData }) {
         <Decoration theme={theme} />
         <Frame theme={theme} />
 
-        <div className={theme.frame === "temple-band" ? "px-[16px] pb-[18px] pt-[38px]" : "p-[18px_16px]"}>
+        <div className={theme.frame === "temple-band" ? "px-[24px] pb-[26px] pt-[44px]" : "p-[26px_22px]"}>
           {theme.headerVariant === "portrait" ? (
             <>
-              <div className="relative -m-[18px] mb-3 aspect-[4/3] w-[calc(100%+32px)] overflow-hidden bg-gradient-to-br from-[#4A4340] to-[#22201D]">
+              <div className="relative -m-[22px] mb-4 aspect-[4/3] w-[calc(100%+44px)] overflow-hidden bg-gradient-to-br from-[#4A4340] to-[#22201D]">
                 {data.photoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={data.photoUrl} alt={personal.fullName} className="h-full w-full object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
                       <circle cx="12" cy="8" r="4" stroke="#9C917F" strokeWidth="1.1" />
                       <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="#9C917F" strokeWidth="1.1" strokeLinecap="round" />
                     </svg>
                   </div>
                 )}
               </div>
-              <div className="font-display text-[16px] font-semibold" style={{ color: theme.headingColor }}>
+              <div className="font-display text-[21px] font-semibold" style={{ color: theme.headingColor }}>
                 {personal.fullName || "Your Name"}
               </div>
-              <p className="mt-1 text-[7px] tracking-[0.15em]" style={{ color: theme.accentColor }}>
+              <p className="mt-1.5 text-[9px] tracking-[0.18em]" style={{ color: theme.accentColor }}>
                 EDITORIAL PORTRAIT
               </p>
-              <div className="mt-1.5 h-px w-9" style={{ background: theme.dividerColor }} />
+              <div className="mt-2 h-px w-11" style={{ background: theme.dividerColor }} />
               {sections}
             </>
           ) : theme.headerVariant === "insetCard" ? (
-            <div className="rounded-md p-3" style={{ background: "#FDF6E9" }}>
+            <div className="rounded-md p-4" style={{ background: "#FDF6E9" }}>
               {header}
               {sections}
             </div>

@@ -1,6 +1,6 @@
 export function SectionTitle({ children, color }: { children: React.ReactNode; color: string }) {
   return (
-    <p className="mb-1 text-[6.5px] font-bold tracking-[0.12em]" style={{ color }}>
+    <p className="mb-1.5 text-[9px] font-bold tracking-[0.12em]" style={{ color }}>
       {children}
     </p>
   );
@@ -19,7 +19,7 @@ export function Grid({
 }) {
   const colsClass = cols === 1 ? "grid-cols-1" : cols === 2 ? "grid-cols-2" : "grid-cols-3";
   return (
-    <div className={`grid ${colsClass} gap-x-2 gap-y-[3px] text-[6.3px] leading-[1.55]`} style={{ color: valueColor }}>
+    <div className={`grid ${colsClass} gap-x-3 gap-y-[6px] text-[8.5px] leading-[1.5]`} style={{ color: valueColor }}>
       {rows.map((row) => (
         <span key={row.label}>
           <strong className="font-bold" style={{ color: labelColor }}>
@@ -35,7 +35,7 @@ export function Grid({
 
 export function Lines({ lines, color }: { lines: string[]; color: string }) {
   return (
-    <div className="text-[6.3px] leading-[1.55]" style={{ color }}>
+    <div className="text-[8.5px] leading-[1.6]" style={{ color }}>
       {lines.map((line) => (
         <div key={line}>{line}</div>
       ))}
@@ -56,7 +56,7 @@ export function CompactRows({
 }) {
   return (
     <div
-      className={`grid ${cols === 1 ? "grid-cols-1" : "grid-cols-2"} gap-x-2 gap-y-[2px] text-[6.3px] leading-[1.55]`}
+      className={`grid ${cols === 1 ? "grid-cols-1" : "grid-cols-2"} gap-x-3 gap-y-[4px] text-[8.5px] leading-[1.6]`}
       style={{ color: valueColor }}
     >
       {rows.map((row) => (
