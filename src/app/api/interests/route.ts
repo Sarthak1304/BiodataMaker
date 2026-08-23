@@ -9,8 +9,16 @@ export async function GET() {
   const userId = (session.user as { id: string }).id;
 
   const [sent, received] = await Promise.all([
-    prisma.interest.findMany({ where: { fromUserId: userId }, orderBy: { createdAt: "desc" } }),
-    prisma.interest.findMany({ where: { toUserId: userId }, orderBy: { createdAt: "desc" } }),
+    prisma.interest.findMany({
+      where: { fromUserId: userId },
+      orderBy: { createdAt: "desc" },
+      include: { toUser: { select: { id: true, name: true, image: true } } },
+    }),
+    prisma.interest.findMany({
+      where: { toUserId: userId },
+      orderBy: { createdAt: "desc" },
+      include: { fromUser: { select: { id: true, name: true, image: true } } },
+    }),
   ]);
 
   return NextResponse.json({ sent, received });

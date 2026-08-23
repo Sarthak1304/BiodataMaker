@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
@@ -29,6 +29,8 @@ export default function DashboardPage() {
   const reset = useDraftStore((s) => s.reset);
   const [rows, setRows] = useState<BiodataRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -47,6 +49,18 @@ export default function DashboardPage() {
   function startNew() {
     reset();
     router.push("/create/template");
+  }
+
+  async function confirmDelete() {
+    if (!deletingId) return;
+    setDeleteBusy(true);
+    const res = await fetch(`/api/biodata/${deletingId}`, { method: "DELETE" });
+    if (res.ok) {
+      setRows((prev) => prev && prev.filter((r) => r.id !== deletingId));
+      if (useDraftStore.getState().savedBiodataId === deletingId) reset();
+      setDeletingId(null);
+    }
+    setDeleteBusy(false);
   }
 
   return (
@@ -84,22 +98,33 @@ export default function DashboardPage() {
             {rows.map((row) => {
               const template = TEMPLATES.find((t) => t.id === row.templateId);
               return (
-                <button
+                <div
                   key={row.id}
-                  onClick={() => openExisting(row)}
-                  className="rounded-lg border-[1.5px] border-border bg-white p-4 text-left hover:border-gold-500"
+                  className="rounded-lg border-[1.5px] border-border bg-white p-4 hover:border-gold-500"
                 >
-                  <div className="mb-2 flex items-start justify-between">
-                    <p className="font-display text-[17px] font-semibold text-ink-900">
-                      {row.personal?.fullName || "Untitled Biodata"}
+                  <button onClick={() => openExisting(row)} className="w-full text-left">
+                    <div className="mb-2 flex items-start justify-between gap-2">
+                      <p className="font-display text-[17px] font-semibold text-ink-900">
+                        {row.personal?.fullName || "Untitled Biodata"}
+                      </p>
+                      <Badge label={row.isPublic ? "Public" : "Private"} tone="outline" />
+                    </div>
+                    <p className="mb-3 text-[12.5px] text-ink-500">{template?.name ?? row.templateId}</p>
+                  </button>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11.5px] text-ink-300">
+                      Updated{" "}
+                      {new Date(row.updatedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                     </p>
-                    <Badge label={row.isPublic ? "Public" : "Private"} tone="outline" />
+                    <button
+                      onClick={() => setDeletingId(row.id)}
+                      aria-label="Delete this biodata"
+                      className="flex h-7 w-7 items-center justify-center rounded-md text-red-700 hover:bg-red-100"
+                    >
+                      <Trash2 size={14} strokeWidth={1.8} />
+                    </button>
                   </div>
-                  <p className="mb-3 text-[12.5px] text-ink-500">{template?.name ?? row.templateId}</p>
-                  <p className="text-[11.5px] text-ink-300">
-                    Updated {new Date(row.updatedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                  </p>
-                </button>
+                </div>
               );
             })}
           </div>
@@ -110,6 +135,33 @@ export default function DashboardPage() {
           New Biodata
         </Button>
       </div>
+
+      {deletingId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 px-6">
+          <div className="w-full max-w-sm rounded-lg bg-white p-6">
+            <h2 className="font-display mb-2 text-[20px] font-semibold text-maroon-900">Delete this biodata?</h2>
+            <p className="mb-5 text-[13.5px] leading-relaxed text-ink-500">
+              This permanently deletes this biodata document, including its photos. It won&apos;t affect your other
+              saved biodata or your account. This can&apos;t be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeletingId(null)}
+                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-ink-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleteBusy}
+                className="flex-1 rounded-md bg-red-700 py-3 text-[14px] font-semibold text-white disabled:opacity-60"
+              >
+                {deleteBusy ? "Deleting…" : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <BottomNav />
     </MobileShell>

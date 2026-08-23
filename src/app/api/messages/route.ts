@@ -63,10 +63,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Message must be 1–4000 characters." }, { status: 400 });
   }
 
-  // Only allow starting a NEW conversation with someone discoverable
-  // (has a public profile) or someone you've already messaged before —
-  // stops this endpoint being used to message arbitrary account IDs.
-  const [targetHasPublicProfile, existingThread] = await Promise.all([
+  // Only allow starting a NEW conversation with someone discoverable (has a
+  // public profile), someone with a mutually-accepted interest, or someone
+  // you've already messaged before — stops this endpoint being used to
+  // message arbitrary account IDs.
+  const [targetHasPublicProfile, existingThread, acceptedInterest] = await Promise.all([
     prisma.biodata.findFirst({ where: { userId: toUserId, isPublic: true } }),
     prisma.message.findFirst({
       where: {
@@ -76,8 +77,17 @@ export async function POST(req: NextRequest) {
         ],
       },
     }),
+    prisma.interest.findFirst({
+      where: {
+        status: "ACCEPTED",
+        OR: [
+          { fromUserId: userId, toUserId },
+          { fromUserId: toUserId, toUserId: userId },
+        ],
+      },
+    }),
   ]);
-  if (!targetHasPublicProfile && !existingThread) {
+  if (!targetHasPublicProfile && !existingThread && !acceptedInterest) {
     return NextResponse.json({ error: "You can't message this member." }, { status: 403 });
   }
 

@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { ChevronRight, UserRound, Download, Trash2 } from "lucide-react";
+import { ChevronRight, UserRound, Download, Trash2, LogOut } from "lucide-react";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { Button } from "@/components/ui/button";
 import { useRequireAuth } from "@/lib/use-require-auth";
+import { useDraftStore } from "@/lib/draft-store";
 
 interface BiodataRow {
   id: string;
@@ -21,11 +22,15 @@ export default function SettingsPage() {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const resetDraft = useDraftStore((s) => s.reset);
+
   const [rows, setRows] = useState<BiodataRow[] | null>(null);
   const [about, setAbout] = useState("");
   const [aboutSaved, setAboutSaved] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [deletingBiodataId, setDeletingBiodataId] = useState<string | null>(null);
+  const [biodataDeleteBusy, setBiodataDeleteBusy] = useState(false);
 
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -63,10 +68,30 @@ export default function SettingsPage() {
     setDeleting(true);
     const res = await fetch("/api/account", { method: "DELETE" });
     if (res.ok) {
+      resetDraft();
       await signOut({ callbackUrl: "/" });
     } else {
       setDeleting(false);
     }
+  }
+
+  async function deleteBiodata() {
+    if (!deletingBiodataId) return;
+    setBiodataDeleteBusy(true);
+    const res = await fetch(`/api/biodata/${deletingBiodataId}`, { method: "DELETE" });
+    if (res.ok) {
+      setRows((prev) => prev && prev.filter((r) => r.id !== deletingBiodataId));
+      if (useDraftStore.getState().savedBiodataId === deletingBiodataId) resetDraft();
+      setDeletingBiodataId(null);
+    }
+    setBiodataDeleteBusy(false);
+  }
+
+  function handleLogout() {
+    // Clear the local draft before the redirect fires, so nothing from
+    // this account lingers in the browser for whoever uses it next.
+    resetDraft();
+    signOut({ callbackUrl: "/" });
   }
 
   return (
@@ -114,6 +139,13 @@ export default function SettingsPage() {
                     row.isPublic ? "right-[3px]" : "left-[3px]"
                   }`}
                 />
+              </button>
+              <button
+                onClick={() => setDeletingBiodataId(row.id)}
+                className="ml-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-red-700 hover:bg-red-100"
+                aria-label="Delete this biodata"
+              >
+                <Trash2 size={15} strokeWidth={1.8} />
               </button>
             </div>
           ))}
@@ -168,12 +200,40 @@ export default function SettingsPage() {
         </div>
 
         <button
-          onClick={() => signOut({ callbackUrl: "/" })}
-          className="mb-6 w-full rounded-md border-[1.5px] border-border bg-white py-3.5 text-[14.5px] font-semibold text-ink-700"
+          onClick={handleLogout}
+          className="mb-6 flex w-full items-center justify-center gap-2 rounded-md border-[1.5px] border-border bg-white py-3.5 text-[14.5px] font-semibold text-ink-700"
         >
+          <LogOut size={15} strokeWidth={1.8} />
           Log Out
         </button>
       </div>
+
+      {deletingBiodataId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 px-6">
+          <div className="w-full max-w-sm rounded-lg bg-white p-6">
+            <h2 className="font-display mb-2 text-[20px] font-semibold text-maroon-900">Delete this biodata?</h2>
+            <p className="mb-5 text-[13.5px] leading-relaxed text-ink-500">
+              This permanently deletes this biodata document, including its photos. It won&apos;t affect your other
+              saved biodata or your account. This can&apos;t be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeletingBiodataId(null)}
+                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-ink-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteBiodata}
+                disabled={biodataDeleteBusy}
+                className="flex-1 rounded-md bg-red-700 py-3 text-[14px] font-semibold text-white disabled:opacity-60"
+              >
+                {biodataDeleteBusy ? "Deleting…" : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {confirmingDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 px-6">
