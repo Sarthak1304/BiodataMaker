@@ -9,6 +9,7 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { Button } from "@/components/ui/button";
 import { useRequireAuth } from "@/lib/use-require-auth";
 import { useDraftStore } from "@/lib/draft-store";
+import { useLogout } from "@/lib/use-logout";
 
 interface BiodataRow {
   id: string;
@@ -23,6 +24,7 @@ export default function SettingsPage() {
   const router = useRouter();
 
   const resetDraft = useDraftStore((s) => s.reset);
+  const logout = useLogout();
 
   const [rows, setRows] = useState<BiodataRow[] | null>(null);
   const [about, setAbout] = useState("");
@@ -85,13 +87,6 @@ export default function SettingsPage() {
       setDeletingBiodataId(null);
     }
     setBiodataDeleteBusy(false);
-  }
-
-  function handleLogout() {
-    // Clear the local draft before the redirect fires, so nothing from
-    // this account lingers in the browser for whoever uses it next.
-    resetDraft();
-    signOut({ callbackUrl: "/" });
   }
 
   return (
@@ -200,7 +195,7 @@ export default function SettingsPage() {
         </div>
 
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className="mb-6 flex w-full items-center justify-center gap-2 rounded-md border-[1.5px] border-border bg-white py-3.5 text-[14.5px] font-semibold text-ink-700"
         >
           <LogOut size={15} strokeWidth={1.8} />

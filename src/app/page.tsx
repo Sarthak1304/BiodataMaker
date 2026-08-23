@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/auth/get-started-button";
-import { HeaderAccountLink } from "@/components/auth/header-account-link";
 
 const FEATURES = [
   {
@@ -25,20 +27,15 @@ const FEATURES = [
   },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  // Already signed in? Skip straight to the dashboard instead of showing
+  // sign-in options again.
+  const session = await getServerSession(authOptions);
+  if (session?.user) redirect("/dashboard");
+
   return (
     <MobileShell>
-      <header className="flex items-center justify-between px-5 pt-5">
-        <div className="flex items-center gap-2">
-          <div className="flex h-[34px] w-[34px] items-center justify-center rounded-md bg-gradient-to-br from-maroon-700 to-maroon-900">
-            <span className="font-display text-[19px] font-semibold text-gold-300">B</span>
-          </div>
-          <span className="font-display text-[19px] font-semibold text-maroon-900">BiodataMatcher</span>
-        </div>
-        <HeaderAccountLink />
-      </header>
-
-      <section className="px-6 pb-2 pt-10">
+      <section className="px-6 pb-2 pt-8">
         <div className="mb-[18px] inline-flex items-center gap-1.5 rounded-full bg-sage-100 px-3 py-1.5 text-[12px] font-semibold text-sage-700">
           ✦ AI-assisted · Free to start
         </div>

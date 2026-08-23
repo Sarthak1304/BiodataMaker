@@ -1,9 +1,9 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Info } from "lucide-react";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { GoogleIcon } from "@/components/auth/google-icon";
 
 function AuthContent() {
   const router = useRouter();
+  const { status } = useSession();
   const params = useSearchParams();
   const paramCallbackUrl = params.get("callbackUrl");
   // Signing in should land on the dashboard by default; staying a guest
@@ -18,6 +19,14 @@ function AuthContent() {
   // the start flow instead unless the link explicitly says otherwise.
   const signInCallbackUrl = paramCallbackUrl ?? "/dashboard";
   const guestCallbackUrl = paramCallbackUrl ?? "/start";
+
+  // Already signed in? Don't show sign-in options again — go straight to
+  // wherever this link was pointing.
+  useEffect(() => {
+    if (status === "authenticated") router.replace(signInCallbackUrl);
+  }, [status, router, signInCallbackUrl]);
+
+  if (status === "authenticated") return null;
 
   return (
     <MobileShell>
