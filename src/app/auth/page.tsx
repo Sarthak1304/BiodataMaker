@@ -4,10 +4,12 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Info } from "lucide-react";
 import { Suspense, useEffect } from "react";
+import { motion } from "framer-motion";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { LogoMark } from "@/components/layout/logo";
 
 function AuthContent() {
   const router = useRouter();
@@ -33,9 +35,14 @@ function AuthContent() {
       <TopBar />
 
       <div className="flex flex-col items-center px-7 pt-10">
-        <div className="mb-[22px] flex h-14 w-14 items-center justify-center rounded-lg bg-gradient-to-br from-maroon-700 to-maroon-900 shadow-button">
-          <span className="font-display text-[30px] font-semibold text-gold-300">B</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="mb-[22px]"
+        >
+          <LogoMark size={56} />
+        </motion.div>
         <h1 className="font-display mb-2 text-center text-[27px] font-semibold text-maroon-900">
           Welcome to BiodataMatcher
         </h1>
@@ -43,15 +50,17 @@ function AuthContent() {
           Sign in to save your biodata, download it as a PDF, and connect with other members.
         </p>
 
-        <Button
-          variant="secondary"
-          size="block"
-          className="mb-4 flex items-center justify-center gap-2.5"
-          onClick={() => signIn("google", { callbackUrl: signInCallbackUrl })}
-        >
-          <GoogleIcon />
-          Continue with Google
-        </Button>
+        <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} className="mb-4 w-full">
+          <Button
+            variant="secondary"
+            size="block"
+            className="flex items-center justify-center gap-2.5"
+            onClick={() => signIn("google", { callbackUrl: signInCallbackUrl })}
+          >
+            <GoogleIcon />
+            Continue with Google
+          </Button>
+        </motion.div>
 
         <div className="my-1.5 flex w-full items-center gap-3">
           <div className="h-px flex-1 bg-border" />

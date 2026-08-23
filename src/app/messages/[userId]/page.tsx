@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft, Send, UserRound } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { useRequireAuth } from "@/lib/use-require-auth";
+import { EmojiPicker } from "@/components/emoji-picker";
 
 interface ThreadMessage {
   id: string;
@@ -111,31 +113,40 @@ export default function MessageThreadPage() {
           </span>
         </div>
 
-        {messages.map((m) => (
-          <div key={m.id} className={`max-w-[76%] ${m.isMine ? "self-end" : "self-start"}`}>
-            <div
-              className={
-                m.isMine
-                  ? "rounded-[16px_16px_4px_16px] bg-gradient-to-br from-maroon-700 to-maroon-900 px-[15px] py-[11px]"
-                  : "rounded-[16px_16px_16px_4px] border border-border bg-white px-[15px] py-[11px]"
-              }
+        <AnimatePresence initial={false}>
+          {messages.map((m) => (
+            <motion.div
+              key={m.id}
+              initial={{ opacity: 0, y: 10, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className={`max-w-[76%] ${m.isMine ? "self-end" : "self-start"}`}
             >
-              <p className={`whitespace-pre-wrap break-words text-[13.5px] leading-relaxed ${m.isMine ? "text-gold-100" : "text-ink-900"}`}>
-                {m.content}
+              <div
+                className={
+                  m.isMine
+                    ? "rounded-[16px_16px_4px_16px] bg-gradient-to-br from-maroon-700 to-maroon-900 px-[15px] py-[11px] shadow-sm"
+                    : "rounded-[16px_16px_16px_4px] border border-border bg-white px-[15px] py-[11px] shadow-sm"
+                }
+              >
+                <p className={`whitespace-pre-wrap break-words text-[13.5px] leading-relaxed ${m.isMine ? "text-gold-100" : "text-ink-900"}`}>
+                  {m.content}
+                </p>
+              </div>
+              <p className={`mt-1 text-[10.5px] text-ink-300 ${m.isMine ? "text-right" : ""}`}>
+                {new Date(m.createdAt).toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" })}
+                {m.isMine && m.readAt ? " · Seen" : ""}
               </p>
-            </div>
-            <p className={`mt-1 text-[10.5px] text-ink-300 ${m.isMine ? "text-right" : ""}`}>
-              {new Date(m.createdAt).toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" })}
-              {m.isMine && m.readAt ? " · Seen" : ""}
-            </p>
-          </div>
-        ))}
+            </motion.div>
+          ))}
+        </AnimatePresence>
         <div ref={bottomRef} />
       </div>
 
       {error && <p className="px-4 pb-2 text-[12.5px] text-maroon-700">{error}</p>}
 
       <div className="sticky bottom-0 flex items-center gap-2.5 border-t border-border bg-ivory-100 px-4 py-3.5">
+        <EmojiPicker onSelect={(emoji) => setDraft((d) => d + emoji)} />
         <div className="flex-1 rounded-full border-[1.5px] border-border bg-white px-4 py-3">
           <input
             value={draft}
@@ -146,13 +157,14 @@ export default function MessageThreadPage() {
             className="w-full min-w-0 border-none bg-transparent text-[14px] text-ink-900 outline-none"
           />
         </div>
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={send}
           disabled={sending || !draft.trim()}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-maroon-700 to-maroon-900 disabled:opacity-50"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-maroon-700 to-maroon-900 shadow-button disabled:opacity-50"
         >
           <Send size={16} strokeWidth={1.8} className="text-gold-100" />
-        </button>
+        </motion.button>
       </div>
     </MobileShell>
   );

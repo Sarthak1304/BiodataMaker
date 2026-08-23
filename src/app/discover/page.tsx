@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, SlidersHorizontal, X, BadgeCheck, UserRound } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { useRequireAuth } from "@/lib/use-require-auth";
@@ -158,41 +159,51 @@ export default function DiscoverPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4">
-          {cards?.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => router.push(`/profile/${c.id}`)}
-              className="overflow-hidden rounded-lg border border-border bg-white text-left"
-            >
-              <div className="relative aspect-square bg-gradient-to-br from-gold-100 to-ivory-200">
-                {c.photoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.photoUrl} alt={c.fullName} className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <UserRound size={36} strokeWidth={1.3} className="text-gold-600" />
-                  </div>
-                )}
-                {c.verified && (
-                  <span className="absolute right-2 top-2 flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-white bg-sage-600">
-                    <BadgeCheck size={13} strokeWidth={2.5} className="text-white" />
-                  </span>
-                )}
-              </div>
-              <div className="px-3 py-2.5">
-                <p className="text-[13.5px] font-semibold text-ink-900">
-                  {c.fullName.split(" ")[0]}
-                  {c.age ? `, ${c.age}` : ""}
-                </p>
-                <p className="mt-1 truncate text-[11px] text-ink-500">{c.occupation || "—"}</p>
-                <p className="mt-0.5 truncate text-[11px] text-ink-300">
-                  {[c.city, c.religion].filter(Boolean).join(" · ")}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ show: { transition: { staggerChildren: 0.05 } } }}
+          className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4"
+        >
+          <AnimatePresence>
+            {cards?.map((c) => (
+              <motion.button
+                key={c.id}
+                variants={{ hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0 } }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onClick={() => router.push(`/profile/${c.id}`)}
+                className="overflow-hidden rounded-xl border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-lg"
+              >
+                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gold-100 to-ivory-200">
+                  {c.photoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={c.photoUrl} alt={c.fullName} className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <UserRound size={36} strokeWidth={1.3} className="text-gold-600" />
+                    </div>
+                  )}
+                  {c.verified && (
+                    <span className="absolute right-2 top-2 flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-white bg-sage-600">
+                      <BadgeCheck size={13} strokeWidth={2.5} className="text-white" />
+                    </span>
+                  )}
+                </div>
+                <div className="px-3 py-2.5">
+                  <p className="text-[13.5px] font-semibold text-ink-900">
+                    {c.fullName.split(" ")[0]}
+                    {c.age ? `, ${c.age}` : ""}
+                  </p>
+                  <p className="mt-1 truncate text-[11px] text-ink-500">{c.occupation || "—"}</p>
+                  <p className="mt-0.5 truncate text-[11px] text-ink-300">
+                    {[c.city, c.religion].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+              </motion.button>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
 
       <BottomNav />

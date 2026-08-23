@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function Chip({
@@ -19,8 +22,9 @@ export function Chip({
       : "border-maroon-700 bg-maroon-900 text-gold-100 font-semibold";
 
   return (
-    <button
+    <motion.button
       type="button"
+      whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={cn(
         "rounded-full border-[1.5px] px-4 py-3.5 text-[13px] transition-colors",
@@ -29,7 +33,7 @@ export function Chip({
       )}
     >
       {label}
-    </button>
+    </motion.button>
   );
 }
 
