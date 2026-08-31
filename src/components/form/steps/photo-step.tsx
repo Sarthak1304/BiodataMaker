@@ -53,13 +53,13 @@ export function PhotoStep() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="mb-3 text-[12.5px] font-medium text-ink-700">Profile Picture</p>
-        <div className="flex flex-col items-center gap-3 rounded-lg border-[1.5px] border-dashed border-border bg-white py-8">
+        <p className="mb-3 text-[12.5px] font-medium text-foreground">Profile Picture</p>
+        <div className="flex flex-col items-center gap-3 rounded-lg border-[1.5px] border-dashed border-border bg-card py-8">
           <button
             type="button"
             onClick={() => mainInput.current?.click()}
             className={cn(
-              "relative flex h-24 w-24 items-center justify-center overflow-hidden border-2 border-gold-500 bg-ivory-200",
+              "relative flex h-24 w-24 items-center justify-center overflow-hidden border-2 border-gold-500 bg-muted",
               photoShape === "circle" ? "rounded-full" : "rounded-lg"
             )}
           >
@@ -67,7 +67,7 @@ export function PhotoStep() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={photoUrl} alt="Profile" className="h-full w-full object-cover" />
             ) : (
-              <Camera size={26} strokeWidth={1.6} className="text-ink-300" />
+              <Camera size={26} strokeWidth={1.6} className="text-muted-foreground" />
             )}
           </button>
           <input
@@ -80,21 +80,21 @@ export function PhotoStep() {
           <button
             type="button"
             onClick={() => mainInput.current?.click()}
-            className="text-[13px] font-semibold text-maroon-700"
+            className="text-[13px] font-semibold text-primary"
           >
             {uploading ? "Uploading…" : photoUrl ? "Change photo" : "Upload from gallery"}
           </button>
-          <p className="px-8 text-center text-[11.5px] text-ink-300">
+          <p className="px-8 text-center text-[11.5px] text-muted-foreground">
             A clear, recent, front-facing photo works best.
           </p>
 
-          <div className="flex gap-2 rounded-full border border-border bg-ivory-50 p-1">
+          <div className="flex gap-2 rounded-full border border-border bg-muted p-1">
             <button
               type="button"
               onClick={() => setPhotoShape("circle")}
               className={cn(
                 "rounded-full px-4 py-1.5 text-[12px] font-medium",
-                photoShape === "circle" ? "bg-maroon-900 text-gold-100" : "text-ink-500"
+                photoShape === "circle" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
               )}
             >
               Round
@@ -104,7 +104,7 @@ export function PhotoStep() {
               onClick={() => setPhotoShape("square")}
               className={cn(
                 "rounded-full px-4 py-1.5 text-[12px] font-medium",
-                photoShape === "square" ? "bg-maroon-900 text-gold-100" : "text-ink-500"
+                photoShape === "square" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
               )}
             >
               Square
@@ -114,12 +114,12 @@ export function PhotoStep() {
       </div>
 
       <div>
-        <p className="mb-3 text-[12.5px] font-medium text-ink-700">Add up to 5 more photos (optional)</p>
+        <p className="mb-3 text-[12.5px] font-medium text-foreground">Add up to 5 more photos (optional)</p>
         <div className="grid grid-cols-3 gap-2.5">
           {additionalPhotos.map((url, i) => (
             <div
               key={url + i}
-              className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md border border-border bg-ivory-100"
+              className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md border border-border bg-muted"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt={`Extra ${i + 1}`} className="h-full w-full object-contain" />
@@ -136,7 +136,7 @@ export function PhotoStep() {
             <button
               type="button"
               onClick={() => extraInput.current?.click()}
-              className="flex aspect-square items-center justify-center rounded-md border-[1.5px] border-dashed border-border text-ink-300"
+              className="flex aspect-square items-center justify-center rounded-md border-[1.5px] border-dashed border-border text-muted-foreground"
             >
               <Camera size={20} strokeWidth={1.6} />
             </button>

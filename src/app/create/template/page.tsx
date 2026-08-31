@@ -29,13 +29,13 @@ function PickTemplateContent() {
     <MobileShell wide>
       <TopBar
         right={
-          <span className="text-[12.5px] text-ink-300">{isSwitching ? "Switch template" : "Before you begin"}</span>
+          <span className="text-[12.5px] text-muted-foreground">{isSwitching ? "Switch template" : "Before you begin"}</span>
         }
       />
 
       <div className="px-5 pt-[18px] lg:px-8">
-        <h1 className="font-display mb-1.5 text-[26px] font-semibold text-maroon-900">Pick a look to start with</h1>
-        <p className="mb-5 text-[13.5px] text-ink-500">
+        <h1 className="font-display mb-1.5 text-[26px] font-semibold text-primary">Pick a look to start with</h1>
+        <p className="mb-5 text-[13.5px] text-muted-foreground">
           Your biodata will preview in this style as you fill it in — switch anytime.
         </p>
 
@@ -57,7 +57,7 @@ function PickTemplateContent() {
                 disabled={!t.available}
                 onClick={() => choose(t.id)}
                 className={cn(
-                  "relative rounded-xl border-[1.5px] bg-white p-2 text-left shadow-sm transition-shadow disabled:opacity-45",
+                  "relative rounded-xl border-[1.5px] bg-card p-2 text-left shadow-sm transition-shadow disabled:opacity-45",
                   isSelected ? "border-gold-500 border-[2.5px] shadow-md" : "border-border hover:shadow-md"
                 )}
               >
@@ -74,9 +74,9 @@ function PickTemplateContent() {
                 <div className="relative aspect-[210/297] overflow-hidden rounded-md bg-ivory-50 p-2.5">
                   <TemplateThumb id={t.id} />
                 </div>
-                <p className="mt-2 mb-0.5 text-center text-[12.5px] font-semibold text-ink-900">{t.name}</p>
+                <p className="mt-2 mb-0.5 text-center text-[12.5px] font-semibold text-foreground">{t.name}</p>
                 {!t.available && (
-                  <p className="pb-1 text-center text-[10.5px] text-ink-300">Coming soon</p>
+                  <p className="pb-1 text-center text-[10.5px] text-muted-foreground">Coming soon</p>
                 )}
               </motion.button>
             );
@@ -84,7 +84,7 @@ function PickTemplateContent() {
         </motion.div>
       </div>
 
-      <div className="mt-7 border-t border-border bg-ivory-50 px-5 py-4 lg:px-8">
+      <div className="mt-7 border-t border-border bg-muted px-5 py-4 lg:px-8">
         <Button onClick={() => router.push(returnTo)} className="lg:mx-auto lg:block lg:w-64">
           {isSwitching ? `Use ${selected.name}` : `Start with ${selected.name}`}
         </Button>

@@ -16,7 +16,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="sticky bottom-0 z-10 mt-6 flex border-t border-border bg-white px-2 pb-4 pt-3 lg:hidden">
+    <div className="sticky bottom-0 z-10 mt-6 flex border-t border-border bg-card px-2 pb-4 pt-3 lg:hidden">
       {ITEMS.map((item) => {
         const active = pathname === item.href || pathname?.startsWith(item.href + "/");
         const Icon = item.icon;
@@ -26,8 +26,8 @@ export function BottomNav() {
             href={item.href}
             className="flex flex-1 flex-col items-center gap-1 py-1.5"
           >
-            <Icon size={21} strokeWidth={active ? 2 : 1.8} className={active ? "text-maroon-900" : "text-ink-300"} />
-            <span className={cn("text-[10.5px]", active ? "font-semibold text-maroon-900" : "text-ink-300")}>
+            <Icon size={21} strokeWidth={active ? 2 : 1.8} className={active ? "text-primary" : "text-muted-foreground"} />
+            <span className={cn("text-[10.5px]", active ? "font-semibold text-primary" : "text-muted-foreground")}>
               {item.label}
             </span>
           </Link>

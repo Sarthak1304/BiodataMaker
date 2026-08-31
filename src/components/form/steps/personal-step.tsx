@@ -72,7 +72,7 @@ export function PersonalStep() {
       </div>
 
       <div>
-        <p className="mb-2 text-[12.5px] font-medium text-ink-700">Gender</p>
+        <p className="mb-2 text-[12.5px] font-medium text-foreground">Gender</p>
         <div className="flex gap-2.5">
           {GENDERS.map((g) => (
             <Chip
@@ -87,7 +87,7 @@ export function PersonalStep() {
       </div>
 
       <div>
-        <p className="mb-2 text-[12.5px] font-medium text-ink-700">Marital Status</p>
+        <p className="mb-2 text-[12.5px] font-medium text-foreground">Marital Status</p>
         <div className="flex flex-wrap gap-2">
           {MARITAL.map((m) => (
             <Chip
@@ -101,7 +101,7 @@ export function PersonalStep() {
       </div>
 
       <div>
-        <p className="mb-2 text-[12.5px] font-medium text-ink-700">Diet</p>
+        <p className="mb-2 text-[12.5px] font-medium text-foreground">Diet</p>
         <div className="flex flex-wrap gap-2">
           {DIETS.map((d) => (
             <Chip
@@ -158,7 +158,7 @@ export function PersonalStep() {
       </Field>
 
       <div>
-        <p className="mb-2 text-[12.5px] font-medium text-ink-700">Hobbies &amp; Interests</p>
+        <p className="mb-2 text-[12.5px] font-medium text-foreground">Hobbies &amp; Interests</p>
         <div className="flex flex-wrap gap-2">
           {hobbyOptions.map((h) => (
             <Chip key={h} label={h} selected={personal.hobbies.includes(h)} onClick={() => toggleHobby(h)} />
@@ -183,7 +183,7 @@ export function PersonalStep() {
             <button
               type="button"
               onClick={() => setAddingHobby(true)}
-              className="rounded-full border-[1.5px] border-dashed border-ink-300 px-4 py-3.5 text-[13px] text-ink-500"
+              className="rounded-full border-[1.5px] border-dashed border-muted-foreground/40 px-4 py-3.5 text-[13px] text-muted-foreground"
             >
               + Add more
             </button>

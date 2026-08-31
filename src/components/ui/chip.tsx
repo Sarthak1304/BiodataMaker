@@ -18,8 +18,8 @@ export function Chip({
 }) {
   const selectedClasses =
     tone === "sage"
-      ? "border-sage-500 bg-sage-100 text-sage-700 font-semibold"
-      : "border-maroon-700 bg-maroon-900 text-gold-100 font-semibold";
+      ? "border-sage-500 bg-sage-100 text-sage-700 font-semibold dark:border-sage-600 dark:bg-sage-900/30 dark:text-sage-300"
+      : "border-primary bg-primary text-primary-foreground font-semibold";
 
   return (
     <motion.button
@@ -28,7 +28,7 @@ export function Chip({
       onClick={onClick}
       className={cn(
         "rounded-full border-[1.5px] px-4 py-3.5 text-[13px] transition-colors",
-        selected ? selectedClasses : "border-border bg-white text-ink-700 hover:border-ink-300",
+        selected ? selectedClasses : "border-border bg-card text-foreground hover:border-muted-foreground",
         className
       )}
     >
@@ -45,10 +45,10 @@ export function Badge({
   tone?: "sage" | "gold" | "maroon" | "outline";
 }) {
   const toneClasses = {
-    sage: "bg-sage-100 text-sage-700",
-    gold: "bg-gold-100 text-gold-700",
-    maroon: "bg-maroon-900 text-gold-100",
-    outline: "border-[1.5px] border-border bg-white text-ink-500 font-medium",
+    sage: "bg-sage-100 text-sage-700 dark:bg-sage-900/30 dark:text-sage-300",
+    gold: "bg-accent text-accent-foreground",
+    maroon: "bg-primary text-primary-foreground",
+    outline: "border-[1.5px] border-border bg-card text-muted-foreground font-medium",
   }[tone];
 
   return (

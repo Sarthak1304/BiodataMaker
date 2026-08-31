@@ -92,52 +92,52 @@ export default function SettingsPage() {
   return (
     <MobileShell wide>
       <div className="px-5 pt-5 lg:px-8">
-        <h1 className="font-display mb-4 text-[26px] font-semibold text-maroon-900">Settings</h1>
+        <h1 className="font-display mb-4 text-[26px] font-semibold text-primary">Settings</h1>
 
-        <div className="mb-6 flex items-center gap-3.5 rounded-md border border-border bg-white p-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ivory-200">
+        <div className="mb-6 flex items-center gap-3.5 rounded-md border border-border bg-card p-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted">
             {session?.user?.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={session.user.image} alt="" className="h-full w-full object-cover" />
             ) : (
-              <UserRound size={22} strokeWidth={1.5} className="text-ink-500" />
+              <UserRound size={22} strokeWidth={1.5} className="text-muted-foreground" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[15px] font-semibold text-ink-900">{session?.user?.name || "Member"}</p>
-            <p className="truncate text-[12px] text-ink-300">{session?.user?.email}</p>
+            <p className="truncate text-[15px] font-semibold text-foreground">{session?.user?.name || "Member"}</p>
+            <p className="truncate text-[12px] text-muted-foreground">{session?.user?.email}</p>
           </div>
         </div>
 
-        <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-300">Privacy</p>
-        <div className="mb-6 rounded-md border border-border bg-white px-4">
-          {rows === null && <p className="py-4 text-[13px] text-ink-500">Loading…</p>}
+        <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">Privacy</p>
+        <div className="mb-6 rounded-md border border-border bg-card px-4">
+          {rows === null && <p className="py-4 text-[13px] text-muted-foreground">Loading…</p>}
           {rows && rows.length === 0 && (
-            <p className="py-4 text-[13px] text-ink-500">You haven&apos;t created a biodata yet.</p>
+            <p className="py-4 text-[13px] text-muted-foreground">You haven&apos;t created a biodata yet.</p>
           )}
           {rows?.map((row, i) => (
             <div key={row.id} className={`flex items-center justify-between py-3.5 ${i > 0 ? "border-t border-border" : ""}`}>
               <div className="flex-1 pr-3">
-                <p className="text-[14px] font-medium text-ink-900">{row.personal?.fullName || "Untitled Biodata"}</p>
-                <p className="mt-0.5 text-[12px] text-ink-300">
+                <p className="text-[14px] font-medium text-foreground">{row.personal?.fullName || "Untitled Biodata"}</p>
+                <p className="mt-0.5 text-[12px] text-muted-foreground">
                   {row.isPublic ? "Visible to other members in Discover" : "Private — hidden from Discover"}
                 </p>
               </div>
               <button
                 onClick={() => togglePublic(row)}
                 className={`relative h-[26px] w-11 shrink-0 rounded-full transition-colors ${
-                  row.isPublic ? "bg-maroon-900" : "bg-border"
+                  row.isPublic ? "bg-primary" : "bg-border"
                 }`}
               >
                 <span
-                  className={`absolute top-[3px] h-5 w-5 rounded-full bg-white shadow transition-all ${
+                  className={`absolute top-[3px] h-5 w-5 rounded-full bg-card shadow transition-all ${
                     row.isPublic ? "right-[3px]" : "left-[3px]"
                   }`}
                 />
               </button>
               <button
                 onClick={() => setDeletingBiodataId(row.id)}
-                className="ml-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-red-700 hover:bg-red-100"
+                className="ml-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-red-700 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-950/40"
                 aria-label="Delete this biodata"
               >
                 <Trash2 size={15} strokeWidth={1.8} />
@@ -148,20 +148,20 @@ export default function SettingsPage() {
 
         {rows && rows.length > 0 && (
           <>
-            <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-300">
+            <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
               About You &amp; What You&apos;re Looking For
             </p>
-            <div className="mb-6 rounded-md border border-border bg-white p-4">
+            <div className="mb-6 rounded-md border border-border bg-card p-4">
               <textarea
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
                 rows={4}
                 maxLength={800}
                 placeholder="A short note about yourself and what you're looking for — shown on your public profile, kept out of your printed biodata."
-                className="w-full min-w-0 resize-none border-none bg-transparent text-[14px] text-ink-900 outline-none placeholder:text-ink-300"
+                className="w-full min-w-0 resize-none border-none bg-transparent text-[14px] text-foreground outline-none placeholder:text-muted-foreground"
               />
               <div className="mt-2 flex items-center justify-end gap-3">
-                {aboutSaved && <span className="text-[12px] text-sage-700">Saved</span>}
+                {aboutSaved && <span className="text-[12px] text-sage-700 dark:text-sage-300">Saved</span>}
                 <Button size="sm" onClick={saveAbout}>
                   Save
                 </Button>
@@ -170,23 +170,23 @@ export default function SettingsPage() {
           </>
         )}
 
-        <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-300">Data</p>
-        <div className="mb-6 rounded-md border border-border bg-white px-4">
+        <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">Data</p>
+        <div className="mb-6 rounded-md border border-border bg-card px-4">
           <a
             href="/api/account/export"
             className="flex items-center justify-between border-b border-border py-3.5 text-left"
           >
-            <span className="flex items-center gap-2.5 text-[14px] text-ink-900">
-              <Download size={15} strokeWidth={1.8} className="text-ink-500" />
+            <span className="flex items-center gap-2.5 text-[14px] text-foreground">
+              <Download size={15} strokeWidth={1.8} className="text-muted-foreground" />
               Download My Data
             </span>
-            <ChevronRight size={14} strokeWidth={1.8} className="text-ink-300" />
+            <ChevronRight size={14} strokeWidth={1.8} className="text-muted-foreground" />
           </a>
           <button
             onClick={() => setConfirmingDelete(true)}
             className="flex w-full items-center justify-between py-3.5 text-left"
           >
-            <span className="flex items-center gap-2.5 text-[14px] font-medium text-red-700">
+            <span className="flex items-center gap-2.5 text-[14px] font-medium text-red-700 dark:text-red-400">
               <Trash2 size={15} strokeWidth={1.8} />
               Delete Account
             </span>
@@ -196,7 +196,7 @@ export default function SettingsPage() {
 
         <button
           onClick={logout}
-          className="mb-6 flex w-full items-center justify-center gap-2 rounded-md border-[1.5px] border-border bg-white py-3.5 text-[14.5px] font-semibold text-ink-700"
+          className="mb-6 flex w-full items-center justify-center gap-2 rounded-md border-[1.5px] border-border bg-card py-3.5 text-[14.5px] font-semibold text-foreground"
         >
           <LogOut size={15} strokeWidth={1.8} />
           Log Out
@@ -204,17 +204,17 @@ export default function SettingsPage() {
       </div>
 
       {deletingBiodataId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 px-6">
-          <div className="w-full max-w-sm rounded-lg bg-white p-6">
-            <h2 className="font-display mb-2 text-[20px] font-semibold text-maroon-900">Delete this biodata?</h2>
-            <p className="mb-5 text-[13.5px] leading-relaxed text-ink-500">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 px-6">
+          <div className="w-full max-w-sm rounded-lg bg-card p-6">
+            <h2 className="font-display mb-2 text-[20px] font-semibold text-primary">Delete this biodata?</h2>
+            <p className="mb-5 text-[13.5px] leading-relaxed text-muted-foreground">
               This permanently deletes this biodata document, including its photos. It won&apos;t affect your other
               saved biodata or your account. This can&apos;t be undone.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setDeletingBiodataId(null)}
-                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-ink-700"
+                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-foreground"
               >
                 Cancel
               </button>
@@ -231,17 +231,17 @@ export default function SettingsPage() {
       )}
 
       {confirmingDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 px-6">
-          <div className="w-full max-w-sm rounded-lg bg-white p-6">
-            <h2 className="font-display mb-2 text-[20px] font-semibold text-maroon-900">Delete your account?</h2>
-            <p className="mb-5 text-[13.5px] leading-relaxed text-ink-500">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 px-6">
+          <div className="w-full max-w-sm rounded-lg bg-card p-6">
+            <h2 className="font-display mb-2 text-[20px] font-semibold text-primary">Delete your account?</h2>
+            <p className="mb-5 text-[13.5px] leading-relaxed text-muted-foreground">
               This permanently deletes your account, every biodata you&apos;ve created, and all your messages and
               interests. This can&apos;t be undone.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmingDelete(false)}
-                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-ink-700"
+                className="flex-1 rounded-md border-[1.5px] border-border py-3 text-[14px] font-medium text-foreground"
               >
                 Cancel
               </button>

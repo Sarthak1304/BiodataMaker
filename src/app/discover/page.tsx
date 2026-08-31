@@ -65,36 +65,36 @@ export default function DiscoverPage() {
     <MobileShell wide>
       <div className="px-5 pt-5 lg:px-8">
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="font-display text-[26px] font-semibold text-maroon-900">Discover</h1>
+          <h1 className="font-display text-[26px] font-semibold text-primary">Discover</h1>
           <button
             onClick={() => setShowFilters((v) => !v)}
-            className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-white"
+            className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card"
           >
-            <SlidersHorizontal size={18} strokeWidth={1.8} className="text-ink-700" />
+            <SlidersHorizontal size={18} strokeWidth={1.8} className="text-foreground" />
           </button>
         </div>
 
-        <div className="mb-3.5 flex items-center gap-2.5 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3">
-          <Search size={16} strokeWidth={1.8} className="text-ink-300" />
+        <div className="mb-3.5 flex items-center gap-2.5 rounded-md border-[1.5px] border-border bg-card px-3.5 py-3">
+          <Search size={16} strokeWidth={1.8} className="text-muted-foreground" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by name, profession..."
-            className="flex-1 border-none bg-transparent text-[14px] text-ink-900 outline-none"
+            className="flex-1 border-none bg-transparent text-[14px] text-foreground outline-none"
           />
         </div>
 
         {showFilters && (
-          <div className="mb-4 flex flex-col gap-3 rounded-md border border-border bg-white p-4">
+          <div className="mb-4 flex flex-col gap-3 rounded-md border border-border bg-card p-4">
             <div>
-              <p className="mb-2 text-[12px] font-medium text-ink-700">Religion</p>
+              <p className="mb-2 text-[12px] font-medium text-foreground">Religion</p>
               <div className="flex flex-wrap gap-2">
                 {RELIGIONS.map((r) => (
                   <button
                     key={r}
                     onClick={() => setReligion(religion === r ? "" : r)}
                     className={`rounded-full border px-3 py-1.5 text-[12.5px] ${
-                      religion === r ? "border-maroon-700 bg-maroon-900 text-gold-100" : "border-border text-ink-700"
+                      religion === r ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
                     }`}
                   >
                     {r}
@@ -104,7 +104,7 @@ export default function DiscoverPage() {
             </div>
             <div className="flex gap-3">
               <div className="flex-1">
-                <p className="mb-2 text-[12px] font-medium text-ink-700">Age</p>
+                <p className="mb-2 text-[12px] font-medium text-foreground">Age</p>
                 <div className="flex items-center gap-2">
                   <input
                     value={minAge}
@@ -112,7 +112,7 @@ export default function DiscoverPage() {
                     placeholder="Min"
                     className="w-full min-w-0 rounded-md border border-border px-2.5 py-2 text-[13px] outline-none"
                   />
-                  <span className="text-ink-300">–</span>
+                  <span className="text-muted-foreground">–</span>
                   <input
                     value={maxAge}
                     onChange={(e) => setMaxAge(e.target.value.replace(/\D/g, ""))}
@@ -122,7 +122,7 @@ export default function DiscoverPage() {
                 </div>
               </div>
               <div className="flex-1">
-                <p className="mb-2 text-[12px] font-medium text-ink-700">Location</p>
+                <p className="mb-2 text-[12px] font-medium text-foreground">Location</p>
                 <input
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -140,7 +140,7 @@ export default function DiscoverPage() {
               <button
                 key={f.key}
                 onClick={f.clear}
-                className="flex shrink-0 items-center gap-1.5 rounded-full bg-maroon-900 px-3.5 py-2 text-[12.5px] font-semibold text-gold-100"
+                className="flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3.5 py-2 text-[12.5px] font-semibold text-primary-foreground"
               >
                 {f.label}
                 <X size={11} strokeWidth={2.5} />
@@ -149,13 +149,13 @@ export default function DiscoverPage() {
           </div>
         )}
 
-        {error && <p className="mb-3 text-[13px] text-maroon-700">{error}</p>}
-        {cards === null && !error && <p className="text-[13.5px] text-ink-500">Loading…</p>}
-        {cards && <p className="mb-3.5 text-[12.5px] text-ink-300">{total} profiles match your filters</p>}
+        {error && <p className="mb-3 text-[13px] text-primary">{error}</p>}
+        {cards === null && !error && <p className="text-[13.5px] text-muted-foreground">Loading…</p>}
+        {cards && <p className="mb-3.5 text-[12.5px] text-muted-foreground">{total} profiles match your filters</p>}
 
         {cards && cards.length === 0 && (
-          <div className="rounded-lg border-[1.5px] border-dashed border-border bg-white py-14 text-center">
-            <p className="text-[14px] text-ink-500">No profiles match right now — try widening your filters.</p>
+          <div className="rounded-lg border-[1.5px] border-dashed border-border bg-card py-14 text-center">
+            <p className="text-[14px] text-muted-foreground">No profiles match right now — try widening your filters.</p>
           </div>
         )}
 
@@ -173,15 +173,15 @@ export default function DiscoverPage() {
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onClick={() => router.push(`/profile/${c.id}`)}
-                className="overflow-hidden rounded-xl border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-lg"
+                className="overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-shadow hover:shadow-lg"
               >
-                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gold-100 to-ivory-200">
+                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-accent to-muted">
                   {c.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={c.photoUrl} alt={c.fullName} className="h-full w-full object-cover" />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
-                      <UserRound size={36} strokeWidth={1.3} className="text-gold-600" />
+                      <UserRound size={36} strokeWidth={1.3} className="text-accent-foreground" />
                     </div>
                   )}
                   {c.verified && (
@@ -191,12 +191,12 @@ export default function DiscoverPage() {
                   )}
                 </div>
                 <div className="px-3 py-2.5">
-                  <p className="text-[13.5px] font-semibold text-ink-900">
+                  <p className="text-[13.5px] font-semibold text-foreground">
                     {c.fullName.split(" ")[0]}
                     {c.age ? `, ${c.age}` : ""}
                   </p>
-                  <p className="mt-1 truncate text-[11px] text-ink-500">{c.occupation || "—"}</p>
-                  <p className="mt-0.5 truncate text-[11px] text-ink-300">
+                  <p className="mt-1 truncate text-[11px] text-muted-foreground">{c.occupation || "—"}</p>
+                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
                     {[c.city, c.religion].filter(Boolean).join(" · ")}
                   </p>
                 </div>

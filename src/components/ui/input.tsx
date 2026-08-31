@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export const FieldLabel = ({ className, ...props }: LabelHTMLAttributes<HTMLLabelElement>) => (
   <label
-    className={cn("mb-1.5 block text-[12.5px] font-medium text-ink-700", className)}
+    className={cn("mb-1.5 block text-[12.5px] font-medium text-foreground", className)}
     {...props}
   />
 );
@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
     <input
       ref={ref}
       className={cn(
-        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
+        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-card px-3.5 py-3 text-[14.5px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary",
         className
       )}
       {...props}
@@ -27,7 +27,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<H
     <textarea
       ref={ref}
       className={cn(
-        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-white px-3.5 py-3 text-[14.5px] text-ink-900 outline-none placeholder:text-ink-300 focus:border-maroon-700",
+        "w-full min-w-0 rounded-md border-[1.5px] border-border bg-card px-3.5 py-3 text-[14.5px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary",
         className
       )}
       {...props}

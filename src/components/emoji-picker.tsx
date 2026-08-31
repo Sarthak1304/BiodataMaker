@@ -30,7 +30,7 @@ export function EmojiPicker({ onSelect }: { onSelect: (emoji: string) => void })
         onClick={() => setOpen((v) => !v)}
         aria-label="Add emoji"
         className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors ${
-          open ? "border-gold-500 bg-gold-100 text-gold-700" : "border-border bg-white text-ink-500"
+          open ? "border-gold-500 bg-accent text-accent-foreground" : "border-border bg-card text-muted-foreground"
         }`}
       >
         <Smile size={18} strokeWidth={1.8} />
@@ -43,7 +43,7 @@ export function EmojiPicker({ onSelect }: { onSelect: (emoji: string) => void })
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-[54px] left-0 z-30 grid w-[236px] grid-cols-8 gap-1 rounded-lg border border-border bg-white p-2.5 shadow-lg"
+            className="absolute bottom-[54px] left-0 z-30 grid w-[236px] grid-cols-8 gap-1 rounded-lg border border-border bg-card p-2.5 shadow-lg"
           >
             {EMOJIS.map((emoji) => (
               <button
@@ -53,7 +53,7 @@ export function EmojiPicker({ onSelect }: { onSelect: (emoji: string) => void })
                   onSelect(emoji);
                   setOpen(false);
                 }}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-[16px] hover:bg-ivory-100"
+                className="flex h-7 w-7 items-center justify-center rounded-md text-[16px] hover:bg-muted"
               >
                 {emoji}
               </button>

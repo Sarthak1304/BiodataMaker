@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export function MobileShell({
   children,
   className,
-  bg = "bg-ivory-50",
+  bg = "bg-background",
   wide = false,
 }: {
   children: React.ReactNode;

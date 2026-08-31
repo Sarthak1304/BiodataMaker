@@ -75,55 +75,55 @@ export default function MessagesListPage() {
   return (
     <MobileShell wide>
       <div className="px-5 pt-5 lg:px-8">
-        <h1 className="font-display mb-4 text-[26px] font-semibold text-maroon-900">Messages</h1>
+        <h1 className="font-display mb-4 text-[26px] font-semibold text-primary">Messages</h1>
 
         {interests.length > 0 && (
           <div className="mb-5 flex flex-col gap-2.5">
-            <p className="text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-300">
+            <p className="text-[11.5px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
               Interest{interests.length > 1 ? "s" : ""} received
             </p>
             {interests.map((interest) => (
               <div
                 key={interest.id}
-                className="flex items-center gap-3 rounded-md border border-gold-500 bg-gold-100 px-4 py-3"
+                className="flex items-center gap-3 rounded-md border border-gold-500 bg-accent px-4 py-3"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-card">
                   {interest.fromUser.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={interest.fromUser.image} alt="" className="h-full w-full object-cover" />
                   ) : (
-                    <Heart size={16} strokeWidth={1.8} className="text-gold-700" />
+                    <Heart size={16} strokeWidth={1.8} className="text-accent-foreground" />
                   )}
                 </div>
-                <p className="flex-1 text-[13.5px] font-medium text-ink-900">
+                <p className="flex-1 text-[13.5px] font-medium text-foreground">
                   {interest.fromUser.name || "A member"} is interested in you
                 </p>
                 <button
                   onClick={() => respond(interest, "DECLINED")}
                   disabled={busyId === interest.id}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-white disabled:opacity-50"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-card disabled:opacity-50"
                 >
-                  <X size={14} strokeWidth={2} className="text-ink-500" />
+                  <X size={14} strokeWidth={2} className="text-muted-foreground" />
                 </button>
                 <button
                   onClick={() => respond(interest, "ACCEPTED")}
                   disabled={busyId === interest.id}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-maroon-700 to-maroon-900 disabled:opacity-50"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 disabled:opacity-50"
                 >
-                  <Check size={14} strokeWidth={2.5} className="text-gold-100" />
+                  <Check size={14} strokeWidth={2.5} className="text-primary-foreground" />
                 </button>
               </div>
             ))}
           </div>
         )}
 
-        {error && <p className="text-[13px] text-maroon-700">{error}</p>}
-        {conversations === null && !error && <p className="text-[13.5px] text-ink-500">Loading…</p>}
+        {error && <p className="text-[13px] text-primary">{error}</p>}
+        {conversations === null && !error && <p className="text-[13.5px] text-muted-foreground">Loading…</p>}
 
         {conversations && conversations.length === 0 && interests.length === 0 && (
-          <div className="rounded-lg border-[1.5px] border-dashed border-border bg-white py-14 text-center">
-            <p className="mb-1 text-[14px] text-ink-500">No conversations yet.</p>
-            <p className="text-[12.5px] text-ink-300">Messages you send or receive will show up here.</p>
+          <div className="rounded-lg border-[1.5px] border-dashed border-border bg-card py-14 text-center">
+            <p className="mb-1 text-[14px] text-muted-foreground">No conversations yet.</p>
+            <p className="text-[12.5px] text-muted-foreground">Messages you send or receive will show up here.</p>
           </div>
         )}
       </div>
@@ -134,34 +134,34 @@ export default function MessagesListPage() {
             key={c.partner.id}
             onClick={() => router.push(`/messages/${c.partner.id}`)}
             className={`flex items-center gap-3.5 border-b border-border px-5 py-3.5 text-left lg:px-8 ${
-              c.unread > 0 ? "bg-gold-100" : "bg-white"
+              c.unread > 0 ? "bg-accent" : "bg-card"
             }`}
           >
-            <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-gold-300 to-gold-100">
+            <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-accent to-muted">
               {c.partner.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={c.partner.image} alt="" className="h-full w-full object-cover" />
               ) : (
-                <UserRound size={24} strokeWidth={1.4} className="text-gold-700" />
+                <UserRound size={24} strokeWidth={1.4} className="text-accent-foreground" />
               )}
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex justify-between gap-2">
-                <p className="truncate text-[14.5px] font-semibold text-ink-900">{c.partner.name || "Member"}</p>
-                <span className={`shrink-0 text-[11px] ${c.unread > 0 ? "font-semibold text-gold-700" : "text-ink-300"}`}>
+                <p className="truncate text-[14.5px] font-semibold text-foreground">{c.partner.name || "Member"}</p>
+                <span className={`shrink-0 text-[11px] ${c.unread > 0 ? "font-semibold text-primary" : "text-muted-foreground"}`}>
                   {timeAgo(c.lastAt)}
                 </span>
               </div>
               <p
                 className={`mt-1 truncate text-[12.5px] ${
-                  c.unread > 0 ? "font-medium text-ink-700" : "text-ink-500"
+                  c.unread > 0 ? "font-medium text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {c.isMine ? "You: " : ""}
                 {c.lastMessage}
               </p>
             </div>
-            {c.unread > 0 && <span className="h-[9px] w-[9px] shrink-0 rounded-full bg-maroon-700" />}
+            {c.unread > 0 && <span className="h-[9px] w-[9px] shrink-0 rounded-full bg-primary" />}
           </button>
         ))}
       </div>

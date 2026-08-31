@@ -30,17 +30,17 @@ export function FormStepShell({
 
   return (
     <div>
-      <TopBar right={<span className="text-[12.5px] text-ink-300">{stepIndex + 1} of {FORM_STEPS.length}</span>} />
+      <TopBar right={<span className="text-[12.5px] text-muted-foreground">{stepIndex + 1} of {FORM_STEPS.length}</span>} />
 
       <div className="lg:flex lg:items-start lg:gap-10 lg:px-8 lg:pt-2">
         <div className="lg:min-w-0 lg:flex-1">
           <div className="px-5 pt-4 lg:px-0">
-            <div className="mb-3.5 flex rounded-full border border-border bg-white p-1 lg:hidden">
+            <div className="mb-3.5 flex rounded-full border border-border bg-card p-1 lg:hidden">
               <Link
                 href={`/create/${stepKey}`}
                 className={cn(
                   "flex-1 rounded-full py-3.5 text-center text-[13px]",
-                  mode === "edit" ? "bg-maroon-900 font-semibold text-gold-100" : "font-medium text-ink-500"
+                  mode === "edit" ? "bg-primary font-semibold text-primary-foreground" : "font-medium text-muted-foreground"
                 )}
               >
                 Edit
@@ -49,7 +49,7 @@ export function FormStepShell({
                 href={`/create/${stepKey}?mode=preview`}
                 className={cn(
                   "flex-1 rounded-full py-3.5 text-center text-[13px]",
-                  mode === "preview" ? "bg-maroon-900 font-semibold text-gold-100" : "font-medium text-ink-500"
+                  mode === "preview" ? "bg-primary font-semibold text-primary-foreground" : "font-medium text-muted-foreground"
                 )}
               >
                 Preview
@@ -60,7 +60,7 @@ export function FormStepShell({
               <Link href={`/create/template?from=/create/${stepKey}`}>
                 <Badge label={template?.name ?? "Traditional Floral"} tone="gold" />
               </Link>
-              <span className="hidden items-center gap-1 text-[11px] text-ink-300 sm:flex">
+              <span className="hidden items-center gap-1 text-[11px] text-muted-foreground sm:flex">
                 <Clock size={12} strokeWidth={1.6} />
                 Preview updates as you type
               </span>
@@ -70,7 +70,7 @@ export function FormStepShell({
               {FORM_STEPS.map((s, i) => (
                 <div
                   key={s.key}
-                  className={cn("h-1 flex-1 rounded-full", i <= stepIndex ? "bg-maroon-700" : "bg-border")}
+                  className={cn("h-1 flex-1 rounded-full", i <= stepIndex ? "bg-primary" : "bg-border")}
                 />
               ))}
             </div>
@@ -83,10 +83,10 @@ export function FormStepShell({
                   className={cn(
                     "shrink-0 rounded-full px-3.5 py-3 text-[12px]",
                     i === stepIndex
-                      ? "bg-maroon-900 font-semibold text-gold-100"
+                      ? "bg-primary font-semibold text-primary-foreground"
                       : i < stepIndex
-                      ? "border border-border text-ink-700"
-                      : "border border-border text-ink-300"
+                      ? "border border-border text-foreground"
+                      : "border border-border text-muted-foreground"
                   )}
                 >
                   {s.label}
@@ -96,8 +96,8 @@ export function FormStepShell({
 
             {/* Edit form: always visible on desktop; toggled by mode on mobile */}
             <div className={cn(mode === "preview" && "hidden lg:block")}>
-              <h1 className="font-display mb-1 text-[25px] font-semibold text-maroon-900">{step.title}</h1>
-              <p className="mb-6 text-[13.5px] text-ink-500">{step.subtitle}</p>
+              <h1 className="font-display mb-1 text-[25px] font-semibold text-primary">{step.title}</h1>
+              <p className="mb-6 text-[13.5px] text-muted-foreground">{step.subtitle}</p>
               {children}
             </div>
 
@@ -107,7 +107,7 @@ export function FormStepShell({
             </div>
           </div>
 
-          <div className="mt-7 flex gap-3 border-t border-border bg-ivory-50 px-5 py-5 lg:px-0">
+          <div className="mt-7 flex gap-3 border-t border-border bg-muted px-5 py-5 lg:px-0">
             <Button
               variant="secondary"
               size="default"
@@ -128,7 +128,7 @@ export function FormStepShell({
         </div>
 
         <div className="hidden lg:sticky lg:top-6 lg:block lg:w-[380px] lg:shrink-0 lg:self-start lg:pb-10">
-          <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-300">Live Preview</p>
+          <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">Live Preview</p>
           <TemplateRenderer data={draft} />
         </div>
       </div>

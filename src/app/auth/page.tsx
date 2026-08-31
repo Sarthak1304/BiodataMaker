@@ -43,10 +43,10 @@ function AuthContent() {
         >
           <LogoMark size={56} />
         </motion.div>
-        <h1 className="font-display mb-2 text-center text-[27px] font-semibold text-maroon-900">
+        <h1 className="font-display mb-2 text-center text-[27px] font-semibold text-primary">
           Welcome to BiodataMatcher
         </h1>
-        <p className="mb-9 max-w-[290px] text-center text-[14px] leading-relaxed text-ink-500">
+        <p className="mb-9 max-w-[290px] text-center text-[14px] leading-relaxed text-muted-foreground">
           Sign in to save your biodata, download it as a PDF, and connect with other members.
         </p>
 
@@ -63,20 +63,20 @@ function AuthContent() {
 
         <div className="my-1.5 flex w-full items-center gap-3">
           <div className="h-px flex-1 bg-border" />
-          <span className="text-[12px] text-ink-300">or</span>
+          <span className="text-[12px] text-muted-foreground">or</span>
           <div className="h-px flex-1 bg-border" />
         </div>
 
         <button
           onClick={() => router.push(guestCallbackUrl)}
-          className="mb-6 w-full rounded-md border-[1.5px] border-border py-3.5 text-[15px] font-medium text-ink-700"
+          className="mb-6 w-full rounded-md border-[1.5px] border-border py-3.5 text-[15px] font-medium text-foreground"
         >
           Continue as Guest
         </button>
 
-        <div className="flex w-full items-start gap-2.5 rounded-md bg-sage-100 p-4">
-          <Info size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 text-sage-700" />
-          <p className="text-[12.5px] leading-relaxed text-sage-700">
+        <div className="flex w-full items-start gap-2.5 rounded-md bg-sage-100 p-4 dark:bg-sage-900/30">
+          <Info size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 text-sage-700 dark:text-sage-300" />
+          <p className="text-[12.5px] leading-relaxed text-sage-700 dark:text-sage-300">
             As a guest you can build and preview a biodata, but you can&apos;t <strong>download</strong> it,{" "}
             <strong>browse other members</strong>, or <strong>send messages</strong>. Sign in anytime to unlock
             these.
@@ -84,13 +84,13 @@ function AuthContent() {
         </div>
       </div>
 
-      <p className="px-6 py-8 text-center text-[11.5px] text-ink-300">
+      <p className="px-6 py-8 text-center text-[11.5px] text-muted-foreground">
         By continuing you agree to our{" "}
-        <a href="#" className="text-ink-500 underline">
+        <a href="#" className="text-muted-foreground underline">
           Terms
         </a>{" "}
         &amp;{" "}
-        <a href="#" className="text-ink-500 underline">
+        <a href="#" className="text-muted-foreground underline">
           Privacy Policy
         </a>
       </p>

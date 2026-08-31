@@ -42,7 +42,7 @@ export function AstroStep() {
         </Field>
       </div>
       <div>
-        <p className="mb-2 text-[12.5px] font-medium text-ink-700">Manglik Status</p>
+        <p className="mb-2 text-[12.5px] font-medium text-foreground">Manglik Status</p>
         <div className="flex flex-wrap gap-2">
           {MANGLIK.map((m) => (
             <Chip

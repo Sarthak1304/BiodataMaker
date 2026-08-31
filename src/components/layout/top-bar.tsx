@@ -18,11 +18,11 @@ export function TopBar({
       <button
         aria-label="Back"
         onClick={onBack ?? (() => router.back())}
-        className="flex h-9 w-9 items-center justify-center rounded-full text-ink-700 hover:bg-ivory-100"
+        className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted"
       >
         <ChevronLeft size={22} strokeWidth={1.8} />
       </button>
-      {title && <span className="text-[13.5px] font-semibold text-ink-900">{title}</span>}
+      {title && <span className="text-[13.5px] font-semibold text-foreground">{title}</span>}
       {right ?? <span className="w-9" />}
     </div>
   );

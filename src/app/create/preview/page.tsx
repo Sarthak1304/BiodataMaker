@@ -64,42 +64,42 @@ export default function LivePreviewPage() {
   }
 
   return (
-    <MobileShell bg="bg-ivory-100">
+    <MobileShell bg="bg-muted">
       <div className="flex items-center justify-between px-5 pt-5">
         <button
           aria-label="Back"
           onClick={() => router.back()}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-ink-700 hover:bg-white"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-card"
         >
           <ChevronLeft size={22} strokeWidth={1.8} />
         </button>
-        <span className="text-[13.5px] font-semibold text-ink-900">
+        <span className="text-[13.5px] font-semibold text-foreground">
           {draft.personal.fullName ? `${draft.personal.fullName.split(" ")[0]}'s Biodata` : "Your Biodata"}
         </span>
-        <MoreVertical size={20} strokeWidth={1.8} className="text-ink-700" />
+        <MoreVertical size={20} strokeWidth={1.8} className="text-foreground" />
       </div>
 
       <div className="px-5 pt-4">
-        <div className="flex rounded-full border border-border bg-white p-1">
+        <div className="flex rounded-full border border-border bg-card p-1">
           <Link
             href="/create/personal"
-            className="flex-1 rounded-full py-3.5 text-center text-[13px] font-medium text-ink-500"
+            className="flex-1 rounded-full py-3.5 text-center text-[13px] font-medium text-muted-foreground"
           >
             Edit
           </Link>
-          <span className="flex-1 rounded-full bg-maroon-900 py-3.5 text-center text-[13px] font-semibold text-gold-100">
+          <span className="flex-1 rounded-full bg-primary py-3.5 text-center text-[13px] font-semibold text-primary-foreground">
             Preview
           </span>
         </div>
       </div>
 
       <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pt-4">
-        <span className="shrink-0 rounded-full bg-maroon-900 px-3 py-1.5 text-[11.5px] font-semibold text-gold-100">
+        <span className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-[11.5px] font-semibold text-primary-foreground">
           {TEMPLATES.find((t) => t.id === draft.templateId)?.name ?? "Traditional Floral"}
         </span>
         <Link
           href="/create/template?from=/create/preview"
-          className="shrink-0 rounded-full border border-border bg-white px-3 py-1.5 text-[11.5px] text-ink-500"
+          className="shrink-0 rounded-full border border-border bg-card px-3 py-1.5 text-[11.5px] text-muted-foreground"
         >
           Switch template
         </Link>
@@ -107,14 +107,14 @@ export default function LivePreviewPage() {
 
       <div className="px-5 pt-[18px]">
         <TemplateRenderer data={draft} />
-        <p className="mt-3 text-center text-[11.5px] text-ink-300">
+        <p className="mt-3 text-center text-[11.5px] text-muted-foreground">
           Page 1 of {draft.additionalPhotos.length > 0 ? 2 : 1} · A4
         </p>
       </div>
 
-      {error && <p className="px-5 pt-3 text-center text-[12.5px] text-maroon-700">{error}</p>}
+      {error && <p className="px-5 pt-3 text-center text-[12.5px] text-primary">{error}</p>}
 
-      <div className="mt-7 flex gap-3 border-t border-border bg-ivory-100 px-5 py-5">
+      <div className="mt-7 flex gap-3 border-t border-border bg-muted px-5 py-5">
         <Button variant="secondary" className="flex-1" onClick={() => router.push("/create/personal")}>
           Edit Details
         </Button>
@@ -126,7 +126,7 @@ export default function LivePreviewPage() {
       <div className="px-5 pb-6 pt-0.5 text-center">
         <Link
           href="/create/template?from=/create/preview"
-          className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-maroon-700"
+          className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-primary"
         >
           <RefreshCw size={13} strokeWidth={1.8} />
           Not quite right? Try a different template
