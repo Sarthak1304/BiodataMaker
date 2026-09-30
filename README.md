@@ -92,3 +92,6 @@ npm run dev
 
 Visual decisions follow `../design-extracted/13-design-tokens.html` (colors,
 type scale, spacing, radii) and the screen mockups `01`–`12` in the same folder.
+  
+
+## Author -- Sarthak Patel
